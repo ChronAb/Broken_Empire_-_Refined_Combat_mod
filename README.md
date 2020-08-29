@@ -1,2 +1,2 @@
 # 0_AD_Broken_EmpireMod
- 
+ A semi-total conversion of 0 AD, mainly inspired by Robert E. Howard's Hyperborean Age setting. Undertake re-imagined combat and city building in an alternate history setting where a supernatural plague has shattered the first century Roman Empire. Roving mercenary bands from different regions of the empire and foreign lands war for supremacy, but darker forces conspire in the shadows.
