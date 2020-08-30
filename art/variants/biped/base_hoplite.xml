@@ -17,7 +17,8 @@
     <animation file="biped/new/hoplite_run_ready.dae" name="phalanx_run" id="phalrun2" speed="16"/>
     <animation event="0.5" file="biped/new/hoplite_attack_a.dae" name="phalanx_attack" id="phalattack1" speed="30"/>
     <animation event="0.5" file="biped/new/hoplite_attack_a.dae" name="Attack_melee" id="attack1" speed="30"/>
-    <animation file="biped/new/promotion.dae" name="promotion" speed="80"/>
+    <animation event="0.5" file="biped/new/hoplite_attack_a.dae" name="Attack_ranged" id="attack1" speed="30"/>
+    <animation file="biped/new/promotion.dae" name="promotion" speed="160"/>
     <animation file="biped/new/capturing_a.dae" name="attack_capture" speed="100"/>
   </animations>
 </variant>

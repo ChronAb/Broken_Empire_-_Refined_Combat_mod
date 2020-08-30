@@ -4,6 +4,6 @@
   </animations>
   <props>
     <prop actor="" attachpoint="weapon_R"/>
-    <prop actor="props/units/weapons/bolt.xml" attachpoint="loaded-weapon_R"/>
+    <prop actor="props/units/weapons/spear.xml" attachpoint="loaded-weapon_R"/>
   </props>
 </variant>
