@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actor version="1">
+  <castshadow/>
+  <group>
+    <variant frequency="1" name="Base">
+      <mesh>skeletal/new/m_tunic_long.dae</mesh>
+      <props>
+        <prop actor="props/units/heads/new/head_pers_tiara_y.xml" attachpoint="head"/>
+        <prop actor="props/units/weapons/spear_reverse.xml" attachpoint="ammo"/>
+      </props>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="0" name="None" />
+    <variant frequency="1" name="Big Turban">
+      <props>
+        <prop actor="props/units/heads/maur_inf_big_turban.xml" attachpoint="helmet"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Fancy Turban">
+      <props>
+        <prop actor="props/units/heads/maur_inf_big_turban.xml" attachpoint="helmet"/>
+        <prop actor="props/units/heads/kush_nubian_ostrich_feathers_b.xml" attachpoint="helmet"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Silly Turban">
+      <props>
+        <prop actor="props/units/heads/maur_hero_big_turban.xml" attachpoint="helmet"/>
+        <prop actor="props/units/heads/kush_nubian_ostrich_feathers_b.xml" attachpoint="helmet"/>
+      </props>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="1" name="Clothing-red-stripes">
+      <textures>
+        <texture file="skeletal/pers_isp_a_1.dds" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="Clothing-blue-stripes">
+      <textures>
+        <texture file="skeletal/pers_isp_a_2.dds" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="Clothing-brown-stripes">
+      <textures>
+        <texture file="skeletal/pers_isp_b_1.dds" name="baseTex"/>
+      </textures>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="1" name="Base">
+      <animations>
+    <animation file="biped/rider/cavalry/idle_relax_spearman_shield_b.dae" name="idle" speed="80"/>
+    <animation file="biped/rider/cavalry/trot_spearman_shield_relax_b.dae" name="Walk" speed="7"/>
+        <animation file="biped/rider/cavalry/gallop_shield.dae" name="Run" speed="7"/>
+      </animations>
+      <props>
+        <prop actor="props/units/weapons/spear.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+    <variant file="biped/rider/carry_meat.xml"/>
+  </group>
+  <group>
+    <variant frequency="1" name="Idle"/>
+    <variant frequency="1" name="attack_capture">
+      <animations>
+        <animation file="biped/rider/cavalry/attack_capture_shield.dae" name="attack_capture" speed="100"/>
+      </animations>
+      <props>
+        <prop actor="props/units/weapons/axe_sagaris.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+    <variant file="biped/attack_ranged_cavalry_javelin_heavy.xml"/>
+    <variant file="biped/rider/promotion_shield.xml" />
+    <variant file="biped/rider/attack_slaughter_shield_pers.xml"/>
+    <variant file="biped/gather_meat.xml"/>
+    <variant file="biped/rider/death_javelin.xml"/>
+  </group>
+  <material>player_trans.xml</material>
+</actor>

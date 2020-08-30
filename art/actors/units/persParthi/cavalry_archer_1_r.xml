@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actor version="1">
+  <castshadow/>
+  <group>
+    <variant frequency="1" name="Base">
+      <mesh>skeletal/new/m_tunic_long.dae</mesh>
+      <props>
+        <prop actor="props/units/weapons/bow_recurve.xml" attachpoint="weapon_bow"/>
+        <prop actor="props/units/pers_quiver_hip.xml" attachpoint="sheath_L"/>
+      </props>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="2" name="Head b" >
+      <props>
+        <prop actor="props/units/heads/new/head_pers_b.xml" attachpoint="head"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Head a" >
+      <props>
+        <prop actor="props/units/heads/new/head_pers_a.xml" attachpoint="head"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Big Hair">
+      <props>
+        <prop actor="props/units/heads/new/head_longhair.xml" attachpoint="head"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Big Hair Beard">
+      <props>
+        <prop actor="props/units/heads/new/head_beard_longhair.xml" attachpoint="head"/>
+      </props>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="3" name="None" />
+    <variant frequency="1" name="Big Turban">
+      <props>
+        <prop actor="props/units/heads/maur_inf_big_turban.xml" attachpoint="helmet"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Fancy Turban">
+      <props>
+        <prop actor="props/units/heads/maur_inf_big_turban.xml" attachpoint="helmet"/>
+        <prop actor="props/units/heads/kush_nubian_ostrich_feathers_b.xml" attachpoint="helmet"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="Silly Turban">
+      <props>
+        <prop actor="props/units/heads/maur_hero_big_turban.xml" attachpoint="helmet"/>
+        <prop actor="props/units/heads/kush_nubian_ostrich_feathers_b.xml" attachpoint="helmet"/>
+      </props>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="1" name="Clothing-red-stripes">
+      <textures>
+        <texture file="skeletal/pers_isp_a_1.dds" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="Clothing-blue-stripes">
+      <textures>
+        <texture file="skeletal/pers_isp_a_2.dds" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="Clothing-brown-stripes">
+      <textures>
+        <texture file="skeletal/pers_isp_b_1.dds" name="baseTex"/>
+      </textures>
+    </variant>
+  </group>
+  <group>
+    <variant file="biped/base_cavalry_archer_relax.xml"/>
+    <variant file="biped/rider/carry_meat.xml"/>
+  </group>
+  <group>
+    <variant frequency="1" name="Idle"/>
+    <variant frequency="1" name="attack_melee">
+      <animations>
+        <animation file="biped/rider/cavalry/attack_cut_shield_long.dae" name="attack_melee" event="0.5" id="attack1" speed="60"/>
+        <animation file="biped/rider/cavalry/attack_cut_shield.dae" name="attack_melee" event="0.5" id="attack2" speed="60"/>
+        <animation file="biped/rider/cavalry/attack_cut_shield.dae" name="attack_melee" event="0.5" id="attack3" speed="60"/>
+        <animation file="biped/rider/cavalry/attack_cut_shield_c.dae" name="attack_melee" event="0.5" id="attack4" speed="60"/>
+      </animations>
+      <props>
+        <prop actor="props/units/weapons/axe_sagaris.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+    <variant frequency="1" name="attack_capture">
+      <animations>
+        <animation file="biped/rider/cavalry/attack_capture_shield.dae" name="attack_capture" speed="100"/>
+      </animations>
+      <props>
+        <prop actor="props/units/weapons/axe_sagaris.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+    <variant file="biped/attack_ranged_cavalry_archer_hip.xml"/>
+    <variant file="biped/rider/promotion_shield.xml">
+      <props>
+        <prop actor="props/units/weapons/axe_sagaris.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+    <variant file="biped/rider/attack_slaughter_shield_hele.xml"/>
+    <variant file="biped/gather_meat.xml">
+      <props>
+        <prop actor="" attachpoint="weapon_bow"/>
+      </props>
+    </variant>
+    <variant file="biped/rider/death_archer.xml"/>
+  </group>
+  <material>player_trans.xml</material>
+</actor>

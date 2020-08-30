@@ -1,0 +1,11 @@
+<variant name="attack_ranged">
+  <animations>
+    <animation file="biped/rider/cavalry/attack_javelin.dae" event="0.74" name="attack_ranged" load="0.20" speed="110"/>
+  </animations>
+  <props>
+    <prop attachpoint="weapon_R"/>
+        <prop actor="props/units/weapons/spear_reverse.xml" attachpoint="ammo"/>
+    <prop actor="props/units/weapons/spear_reverse.xml" attachpoint="loaded-weapon_R"/>
+    <prop actor="props/units/weapons/spear.xml" attachpoint="projectile"/>
+  </props>
+</variant>
