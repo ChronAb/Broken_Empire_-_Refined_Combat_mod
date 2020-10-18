@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actor version="1">
+  <castshadow/>
+  <group>
+    <variant frequency="1" name="Base">
+      <mesh>skeletal/new/m_tunic_long.dae</mesh>
+      <props>
+        <prop actor="props/units/heads/new/head_pers_tiara_mouth.xml" attachpoint="head"/>
+        <prop actor="props/units/heads/pers_kidaris_tied.xml" attachpoint="helmet"/>
+        <prop actor="props/units/shields/pers_taka_b.xml" attachpoint="shield"/>
+        <prop actor="props/units/weapons/slingrock.xml" attachpoint="sheath_L"/>
+        <prop actor="props/units/capes/axe_javelinist.xml" attachpoint="root"/>
+      </props>
+      <textures>
+        <texture file="skeletal/pers_ijv_a_1.dds" name="baseTex"/>
+      </textures>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="3" name="Axe">
+      <props>
+        <prop actor="props/units/weapons/axe_single.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+    <variant frequency="2" name="Mace">
+      <props>
+        <prop actor="props/units/weapons/kush_nubian_mace.xml" attachpoint="weapon_R"/>
+      </props>
+    </variant>
+  </group>
+  <group>
+    <variant file="biped/base_skirmisher.xml"/>
+    <variant file="biped/carry_food.xml"/>
+    <variant file="biped/carry_meat.xml"/>
+    <variant file="biped/carry_wood.xml"/>
+    <variant file="biped/carry_stone.xml"/>
+    <variant file="biped/carry_metal.xml"/>
+  </group>
+  <group>
+    <variant frequency="1" name="Idle"/>
+    <variant name="attack_melee">
+      <animations>
+        <animation event="0.5" file="biped/new/sword_shield_attack_a.dae" name="attack_melee" id="attack1" speed="120"/>
+        <animation event="0.5" file="biped/new/sword_shield_attack_b.dae" name="attack_melee" id="attack2" speed="100"/>
+        <animation event="0.5" file="biped/new/sword_shield_attack_a.dae" name="attack_melee" id="attack3" speed="80"/>
+      </animations>
+    </variant>
+    <variant name="attack_ranged">
+      <props>
+        <prop attachpoint="weapon_R"/>
+        <prop actor="props/units/weapons/slingrock.xml" attachpoint="loaded-weapon_R"/>
+        <prop actor="props/units/weapons/slingrock.xml" attachpoint="projectile"/>
+      </props>
+    </variant>
+    <variant file="biped/attack_slaughter.xml"/>
+    <variant file="biped/gather_tree.xml"/>
+    <variant file="biped/gather_grain.xml"/>
+    <variant file="biped/gather_fruit.xml"/>
+    <variant file="biped/gather_meat.xml"/>
+    <variant file="biped/gather_rock.xml"/>
+    <variant file="biped/gather_ore.xml"/>
+    <variant file="biped/gather_ruins.xml"/>
+    <variant file="biped/gather_praise.xml"/>
+    <variant file="biped/build.xml"/>
+    <variant file="biped/build_farm.xml"/>
+    <variant file="biped/death_infantry.xml">
+      <props>
+        <prop actor="props/units/capes/axe_javelinist.xml" attachpoint="root"/>
+      </props>
+    </variant>
+  </group>
+  <material>player_trans.xml</material>
+</actor>
