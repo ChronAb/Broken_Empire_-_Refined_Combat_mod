@@ -1472,7 +1472,7 @@ UnitAI.prototype.UnitFsmSpec = {
 			}
 		},
 
-		"IDLE": {
+		"IDLE": { // INDIVIDUAL.IDLE
 			"enter": function() {
 				// Switch back to idle animation to guarantee we won't
 				// get stuck with an incorrect animation
@@ -1578,7 +1578,7 @@ UnitAI.prototype.UnitFsmSpec = {
 			},
 		},
 
-		"WALKINGANDFIGHTING": {
+		"WALKINGANDFIGHTING": { // INDIVIDUAL.WALKINGANDFIGHTING
 			"enter": function() {
 				// Show weapons rather than carried resources.
 				this.SetAnimationVariant("combat");
@@ -1771,7 +1771,7 @@ UnitAI.prototype.UnitFsmSpec = {
 			// TODO: what if we run into more enemies while fleeing?
 		},
 
-		"COMBAT": {
+		"COMBAT": { // INDIVIDUAL.COMBAT
 			"Order.LeaveFoundation": function(msg) {
 				// Ignore the order as we're busy.
 				return { "discardOrder": true };
@@ -1780,8 +1780,10 @@ UnitAI.prototype.UnitFsmSpec = {
 			"Attacked": function(msg) {
 				// If we're already in combat mode, ignore anyone else who's attacking us
 				// unless it's a melee attack since they may be blocking our way to the target
-				if (msg.data.type == "Melee" && (this.GetStance().targetAttackersAlways || !this.order.data.force))
-					this.RespondToTargetedEntities([msg.data.attacker]);
+                
+                // try disabling to reduce unit ADHD ****
+                //if (msg.data.type == "Melee" && (this.GetStance().targetAttackersAlways || !this.order.data.force))
+					//this.RespondToTargetedEntities([msg.data.attacker]);
 			},
 
 			"APPROACHING": {
@@ -1953,12 +1955,18 @@ UnitAI.prototype.UnitFsmSpec = {
 
 						this.FaceTowardsTarget(target);
 
+                        // Finally we are ready to trigger the attack
 						// BuildingAI has it's own attack-routine
 						var cmpBuildingAI = Engine.QueryInterface(this.entity, IID_BuildingAI);
 						if (!cmpBuildingAI)
 						{
-							let cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
-							cmpAttack.PerformAttack(this.order.data.attackType, target);
+                            // Final Check that the target is still mostly in range -- Very Important ****(new)
+                            if (this.CheckTargetAttackRange( target, this.order.data.attackType, 10, 15, 0 ))
+                            {
+                                let cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
+                                cmpAttack.PerformAttack(this.order.data.attackType, target); 
+                            }
+                            // ****
 						}
 
 						// Check we can still reach the target for the next attack
@@ -4421,7 +4429,7 @@ UnitAI.prototype.CheckPointRangeExplicit = function(x, z, min, max)
 	return cmpUnitMotion.IsInPointRange(x, z, min, max);
 };
 
-UnitAI.prototype.CheckTargetRange = function(target, iid, type)
+UnitAI.prototype.CheckTargetRange = function(target, iid, type, offset=0)
 {
 	var cmpRanged = Engine.QueryInterface(this.entity, iid);
 	if (!cmpRanged)
@@ -4429,16 +4437,16 @@ UnitAI.prototype.CheckTargetRange = function(target, iid, type)
 	var range = cmpRanged.GetRange(type);
 
 	var cmpUnitMotion = Engine.QueryInterface(this.entity, IID_UnitMotion);
-	return cmpUnitMotion.IsInTargetRange(target, range.min, range.max);
+	return cmpUnitMotion.IsInTargetRange(target, range.min, range.max + offset);
 };
 
 /**
  * Check if the target is inside the attack range
- * For melee attacks, this goes straigt to the regular range calculation
- * For ranged attacks, the parabolic formula is used to accout for bigger ranges
+ * For melee attacks, this goes straight to the regular range calculation
+ * For ranged attacks, the parabolic formula is used to account for bigger ranges
  * when the target is lower, and smaller ranges when the target is higher
  */
-UnitAI.prototype.CheckTargetAttackRange = function(target, type)
+UnitAI.prototype.CheckTargetAttackRange = function(target, type, meleeOffset=0, rangedOffset=0, rangedFloor=Infinity)
 {
 	// for formation members, the formation will take care of the range check
 	if (this.IsFormationMember())
@@ -4454,7 +4462,7 @@ UnitAI.prototype.CheckTargetAttackRange = function(target, type)
 		target = cmpFormation.GetClosestMember(this.entity);
 
 	if (type != "Ranged")
-		return this.CheckTargetRange(target, IID_Attack, type);
+		return this.CheckTargetRange(target, IID_Attack, type, meleeOffset);
 
 	var targetCmpPosition = Engine.QueryInterface(target, IID_Position);
 	if (!targetCmpPosition || !targetCmpPosition.IsInWorld())
@@ -4478,7 +4486,7 @@ UnitAI.prototype.CheckTargetAttackRange = function(target, type)
 		return false;
 
 	var cmpUnitMotion = Engine.QueryInterface(this.entity, IID_UnitMotion);
-	return cmpUnitMotion.IsInTargetRange(target, range.min, Math.sqrt(maxRangeSq));
+	return cmpUnitMotion.IsInTargetRange(target, Math.min(range.min, rangedFloor), Math.sqrt(maxRangeSq)+rangedOffset);
 };
 
 UnitAI.prototype.CheckTargetRangeExplicit = function(target, min, max)

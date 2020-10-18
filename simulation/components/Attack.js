@@ -386,7 +386,34 @@ Attack.prototype.GetBestAttackAgainst = function(target, allowCapture)
 		// not capturable, so remove this attack
 		types.splice(captureIndex, 1);
 	}
-
+    
+    // check if this unit has both Melee and Ranged attacks
+    if ( this.CanAttack(target, ["Ranged"])  && this.CanAttack(target, ["Melee"]) ){
+        let cmpUnitAI = Engine.QueryInterface(this.entity, IID_UnitAI);
+        let cmpUnitMotion = Engine.QueryInterface(this.entity, IID_UnitMotion);   
+        
+        let shootRange = Math.max( 
+            Math.min( 30, this.GetRange("Ranged").max/2 ), 
+            this.GetRange("Ranged").min 
+            );
+        let chargeRange = shootRange;
+        // if this unit's stance is Stand Ground, and distance to target is greater than Melee range, use Ranged
+        // and if distance to target is less than Ranged range minimum range, use Melee
+        if ( cmpUnitAI.GetStance().respondStandGround ){
+            shootRange = this.GetRange("Melee").max;
+            chargeRange = this.GetRange("Ranged").min;
+        }
+        // otherwise switch to melee at greater of 1/2 ranged attack max range (<30) and ranged attack min range 
+        
+        if ( cmpUnitMotion.IsInTargetRange(target, shootRange, 200) )
+            return "Ranged";
+        
+        else if ( cmpUnitMotion.IsInTargetRange(target, 0, chargeRange ) )
+            return "Melee";
+    
+    }
+    
+    // Otherwise, use whatever attack has the highest preference score
 	let isPreferred = className => this.GetPreferredClasses(className).some(isTargetClass);
 
 	return types.sort((a, b) =>
@@ -509,8 +536,14 @@ Attack.prototype.PerformAttack = function(type, target)
 		let previousTargetPosition = Engine.QueryInterface(target, IID_Position).GetPreviousPosition();
 		let targetVelocity = Vector3D.sub(targetPosition, previousTargetPosition).div(turnLength);
 
+        // Attempt to adjust for target motion
 		let timeToTarget = this.PredictTimeToTarget(selfPosition, horizSpeed, targetPosition, targetVelocity);
-		let predictedPosition = (timeToTarget !== false) ? Vector3D.mult(targetVelocity, timeToTarget).add(targetPosition) : targetPosition;
+        // Perfect targeting gets too hard for flight times greater than 1.75 s ****(new)
+        let predictedPosition = targetPosition;
+        if( timeToTarget <= 1.75 ) {
+            predictedPosition = (timeToTarget !== false) ? Vector3D.mult(targetVelocity, timeToTarget).add(targetPosition) : targetPosition;
+        }
+        // ****
 
 		// Add inaccuracy based on spread.
 		let distanceModifiedSpread = ApplyValueModificationsToEntity("Attack/Ranged/Spread", +this.template.Ranged.Spread, this.entity) *
