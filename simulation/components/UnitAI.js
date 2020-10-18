@@ -1796,6 +1796,10 @@ UnitAI.prototype.UnitFsmSpec = {
 				},
 
 				"leave": function() {
+					// Reset normal speed in case it was changed ****(new)
+					this.SetMoveSpeed(this.GetWalkSpeed());
+                    // ****
+                    
 					// Show carried resources when walking.
 					this.SetDefaultAnimationVariant();
 
@@ -1803,6 +1807,13 @@ UnitAI.prototype.UnitFsmSpec = {
 				},
 
 				"Timer": function(msg) {
+                    // Run to target if in sprinting range ****(new)
+                    if( this.CheckTargetRangeExplicit(this.order.data.target,0,this.GetRunRange()) ){
+                        var speed = this.GetRunSpeed();
+                        this.SetMoveSpeed(speed); 
+                    }
+                    //****
+                    
 					if (this.ShouldAbandonChase(this.order.data.target, this.order.data.force, IID_Attack, this.order.data.attackType))
 					{
 						this.StopMoving();
@@ -2046,15 +2057,22 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					// Show weapons rather than carried resources.
 					this.SetAnimationVariant("combat");
+                    
+                    // Always run after target ****(new)
+                        var speed = this.GetRunSpeed();
+						this.SetMoveSpeed(speed);
+                    // ****
 
 					this.SelectAnimation("move");
-					var cmpUnitAI = Engine.QueryInterface(this.order.data.target, IID_UnitAI);
+                    // ****(new)
+					/*var cmpUnitAI = Engine.QueryInterface(this.order.data.target, IID_UnitAI);
 					if (cmpUnitAI && cmpUnitAI.IsFleeing())
 					{
 						// Run after a fleeing target
 						var speed = this.GetRunSpeed();
 						this.SetMoveSpeed(speed);
-					}
+					}*/
+                    // ****
 					this.StartTimer(1000, 1000);
 				},
 
@@ -4048,6 +4066,14 @@ UnitAI.prototype.GetRunSpeed = function()
 	var health = cmpHealth.GetHitpoints()/cmpHealth.GetMaxHitpoints();
 	return (health*runSpeed + (1-health)*walkSpeed);
 };
+
+// ****(new)
+UnitAI.prototype.GetRunRange = function()
+{
+	var cmpUnitMotion = Engine.QueryInterface(this.entity, IID_UnitMotion);
+	return 60;
+};
+// ****
 
 /**
  * Returns true if the target exists and has non-zero hitpoints.
