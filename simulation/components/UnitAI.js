@@ -614,7 +614,15 @@ UnitAI.prototype.UnitFsmSpec = {
 	},
 
 	"Order.ReturnResource": function(msg) {
-		// Check if the dropsite is already in range
+        // Check if the dropsite is already in range
+        // Harvesters working within 15 range can deposit instantly ****(new)
+        if (this.CheckTargetRangeExplicit(this.order.data.target,0,18) && this.CanReturnResource(this.order.data.target, true))
+		{
+            this.SetNextState("INDIVIDUAL.RETURNRESOURCE.QUICKDROP");
+            return;
+		}// ****
+        
+        /* ****(old)
 		if (this.CheckTargetRange(this.order.data.target, IID_ResourceGatherer) && this.CanReturnResource(this.order.data.target, true))
 		{
 			var cmpResourceDropsite = Engine.QueryInterface(this.order.data.target, IID_ResourceDropsite);
@@ -632,9 +640,11 @@ UnitAI.prototype.UnitFsmSpec = {
 				this.FinishOrder();
 				return;
 			}
-		}
-		// Try to move to the dropsite
-		if (this.MoveToTargetRange(this.order.data.target, IID_ResourceGatherer))
+		} */
+        
+		// Try to move to the dropsite ****(new)
+		if (this.MoveToTargetRangeExplicit(this.order.data.target, 0,15))
+        // ****
 		{
 			// We've started walking to the target
 			this.SetNextState("INDIVIDUAL.RETURNRESOURCE.APPROACHING");
@@ -2127,11 +2137,13 @@ UnitAI.prototype.UnitFsmSpec = {
 							}
 							else
 							{
-								// we're kind of stuck here. Return resource.
+								// we're kind of stuck here. Go wait at the dropsite.
 								var nearby = this.FindNearestDropsite(oldType.generic);
 								if (nearby)
 								{
-									this.PushOrderFront("ReturnResource", { "target": nearby, "force": false });
+                                    // ****(new)
+									this.PushOrderFront("WalkToTarget", { "target": nearby, "force": false }); // ****
+                                    this.PushOrderFront("ReturnResource", { "target": nearby, "force": false });
 									return true;
 								}
 							}
@@ -2235,6 +2247,8 @@ UnitAI.prototype.UnitFsmSpec = {
 					var nearby = this.FindNearestDropsite(resourceType.generic);
 					if (nearby)
 					{
+                        // ****(new)
+                        this.PushOrderFront("WalkToTarget", { "target": nearby, "force": false }); // ****
 						this.PushOrderFront("ReturnResource", { "target": nearby, "force": false });
 						return;
 					}
@@ -2448,6 +2462,8 @@ UnitAI.prototype.UnitFsmSpec = {
 					var nearby = this.FindNearestDropsite(resourceType.generic);
 					if (nearby)
 					{
+                        // ****(new)
+                        this.PushOrderFront("WalkToTarget", { "target": nearby, "force": false }); // ****
 						this.PushOrderFront("ReturnResource", { "target": nearby, "force": false });
 						return;
 					}
@@ -2596,9 +2612,39 @@ UnitAI.prototype.UnitFsmSpec = {
 			},
 		},
 
-		// Returning to dropsite
+		// Returning resources to dropsite
 		"RETURNRESOURCE": {
-			"APPROACHING": {
+            // ****(new)
+			"QUICKDROP": {
+                "enter": function() {
+                    this.SelectAnimation("idle");
+                    this.StartTimer(500, 500);
+                    return false;
+                },
+
+                "leave": function() {
+                    this.StopTimer();
+                },
+
+                "Timer": function(msg) {
+                    var cmpResourceDropsite = Engine.QueryInterface(this.order.data.target, IID_ResourceDropsite);
+                    if (cmpResourceDropsite)
+                    {
+                        // Dump any resources we can
+                        var dropsiteTypes = cmpResourceDropsite.GetTypes();
+
+                        Engine.QueryInterface(this.entity, IID_ResourceGatherer).CommitResources(dropsiteTypes);
+                        // Stop showing the carried resource animation.
+                        this.SetDefaultAnimationVariant();
+
+                        // Our next order should always be a Gather,
+                        // so just switch back to that order
+                        this.FinishOrder();
+                    }
+                },
+            }, // ****
+                    
+            "APPROACHING": {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
@@ -2608,9 +2654,10 @@ UnitAI.prototype.UnitFsmSpec = {
 					// get stuck with the carry animation after stopping moving
 					this.SelectAnimation("idle");
 
-					// Check the dropsite is in range and we can return our resource there
+					// Check the dropsite is within 15 range so we can return our resource there ****(new)
 					// (we didn't get stopped before reaching it)
-					if (this.CheckTargetRange(this.order.data.target, IID_ResourceGatherer) && this.CanReturnResource(this.order.data.target, true))
+					if (this.CheckTargetRangeExplicit(this.order.data.target, 0, 15) && this.CanReturnResource(this.order.data.target, true))
+                        // ****
 					{
 						var cmpResourceDropsite = Engine.QueryInterface(this.order.data.target, IID_ResourceDropsite);
 						if (cmpResourceDropsite)
