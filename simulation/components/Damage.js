@@ -253,10 +253,13 @@ Damage.prototype.CauseDamage = function(data)
 	let cmpLoot = Engine.QueryInterface(data.target, IID_Loot);
 	let cmpHealth = Engine.QueryInterface(data.target, IID_Health);
 	if (cmpPromotion && cmpLoot && cmpLoot.GetXp() > 0)
-		cmpPromotion.IncreaseXp(cmpLoot.GetXp() * -targetState.change / cmpHealth.GetMaxHitpoints());
+		cmpPromotion.IncreaseXp(cmpLoot.GetXp() * -0.5*targetState.change / cmpHealth.GetMaxHitpoints());
 
-	if (targetState.killed)
+	if (targetState.killed){
 		this.TargetKilled(data.attacker, data.target, data.attackerOwner);
+        if (cmpPromotion && cmpLoot && cmpLoot.GetXp() > 0)
+            cmpPromotion.IncreaseXp( 0.5 * cmpLoot.GetXp() );
+    }
 
 	Engine.PostMessage(data.target, MT_Attacked, { "attacker": data.attacker, "target": data.target, "type": data.type, "damage": -targetState.change, "attackerOwner": data.attackerOwner });
 };

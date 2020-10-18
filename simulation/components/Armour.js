@@ -49,12 +49,25 @@ Armour.prototype.TakeDamage = function(strengths, multiplier = 1)
 	// Total is sum of individual damages
 	// Don't bother rounding, since HP is no longer integral.
 	var total = 0;
-	for (let type in strengths)
-		total += strengths[type] * multiplier * Math.pow(0.9, armourStrengths[type] || 0);
+	for (let type in strengths){
+        let fraction = Math.pow(0.9, armourStrengths[type] || 0);
+        if (randBool(fraction)){
+            total += strengths[type] * multiplier * (0.75 + 0.25 * fraction);
+        } else { total += strengths[type] * multiplier * 0.25 * fraction;}
+    }
+    
+    //Modify according to Critical Hit System
+	var dammage = total;
+    if (total >= 60){
+        dammage = total - 50 + randBool(0.2) * 250;
+    }
+    else if (total > 10){
+        dammage = 10 + 5 * randBool(0.2) * (total-10);
+    }
 
 	// Reduce health
 	var cmpHealth = Engine.QueryInterface(this.entity, IID_Health);
-	return cmpHealth.Reduce(total);
+	return cmpHealth.Reduce(dammage);
 };
 
 Armour.prototype.GetArmourStrengths = function()
