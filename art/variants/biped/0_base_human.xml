@@ -1,0 +1,21 @@
+<variant name="Base" frequency="1">
+  <animations>
+    <animation file="biped/new/sword_shield_idle_relax.dae" name="Idle" id="idle1" speed="30"/>
+    <animation file="biped/new/sword_shield_idle_relax.dae" name="Idle" id="idle2" speed="25"/>
+    <animation file="biped/new/sword_shield_idle_relax.dae" name="Idle" id="idle3" speed="35"/>
+    
+    <animation file="biped/new/walk_relax_generic.dae" name="Walk" id="walk1" speed="20"/>
+    <animation file="biped/new/walk_relax_generic.dae" name="Walk" id="walk2" speed="20"/>
+    <animation file="biped/new/run_generic.dae" name="Run" id="run1" speed="5"/>
+    <animation file="biped/new/run_generic.dae" name="Run" id="run2" speed="5"/>
+    <animation file="biped/new/run_generic.dae" name="Run" id="run3" speed="5"/>
+    
+    <animation event="0.5" file="biped/new/sword_shield_attack_a.dae" name="attack_melee" id="attack1" speed="120"/>
+    <animation event="0.5" file="biped/new/sword_shield_attack_b.dae" name="attack_melee" id="attack2" speed="100"/>
+    <animation event="0.5" file="biped/new/sword_shield_attack_c.dae" name="attack_melee" id="attack3" speed="80"/>
+    <animation event="0.50" file="biped/new/javelin_attack_a.dae" load="0.75" name="attack_ranged" speed="100"/>
+	<animation file="biped/new/capturing_a.dae" name="attack_capture" speed="100"/>
+    
+	<animation file="biped/new/promotion.dae" name="promotion" speed="100"/>
+  </animations>
+</variant>
