@@ -3,7 +3,7 @@ function ResourceTrickle() {}
 ResourceTrickle.prototype.Schema =
 	"<a:help>Controls the resource trickle ability of the unit.</a:help>" +
 	"<element name='Rates' a:help='Trickle Rates'>" +
-		Resources.BuildSchema("nonNegativeDecimal") +
+		Resources.BuildSchema("decimal") +
 	"</element>" +
 	"<element name='Interval' a:help='Number of miliseconds must pass for the player to gain the next trickle.'>" +
 		"<ref name='nonNegativeDecimal'/>" +
