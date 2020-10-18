@@ -54,36 +54,37 @@ AuraManager.prototype.ensureExists = function(name, value, id, key, defaultData)
 	return k;
 };
 
-AuraManager.prototype.ApplyBonus = function(value, ents, newData, key)
+AuraManager.prototype.ApplyBonus = function(value, ents, newData, key, minimumStack, maximumStack)
 {
 	for (let ent of ents)
 	{
 		var data = this.ensureExists("modifications", value, ent, key, { "add":0, "multiply":1 });
 
-		if (data.count)
+		if (!data.count)
 		{
-			// this aura is already applied and the bonus shouldn't be given twice,
-			// just count the number of times it is applied
-			data.count++;
-			continue;
+            // first time applying this aura
+            data.minStack = minimumStack;
+            data.maxStack = maximumStack;
+            data.multiply = newData.multiply;
+            data.add = newData.add;
+            data.count = 1;
 		}
+        else data.count++;
 
-		// first time added this aura
-		data.multiply = newData.multiply;
-		data.add = newData.add;
-		data.count = 1;
+        // Apply modifications if within the appropriate stack range
+        if (data.count >= data.minStack && data.count <= data.maxStack){
+            if (data.add)
+                this.modificationsCache.get(value).get(ent).add += data.add;
+            if (data.multiply)
+                this.modificationsCache.get(value).get(ent).multiply *= data.multiply;
 
-		if (data.add)
-			this.modificationsCache.get(value).get(ent).add += data.add;
-		if (data.multiply)
-			this.modificationsCache.get(value).get(ent).multiply *= data.multiply;
-
-		// post message to the entity to notify it about the change
-		Engine.PostMessage(ent, MT_ValueModification, {
-			"entities": [ent],
-			"component": value.split("/")[0],
-			"valueNames": [value]
-		});
+            // post message to the entity to notify it about the change
+            Engine.PostMessage(ent, MT_ValueModification, {
+                "entities": [ent],
+                "component": value.split("/")[0],
+                "valueNames": [value]
+            });
+        }
 	}
 };
 
@@ -147,12 +148,15 @@ AuraManager.prototype.RemoveBonus = function(value, ents, key)
 		if (!data || !data.count)
 			continue;
 
+        // if outside the appropriate stack range, then don't remove the modifications, just tally down the count 
+		if (data.count < data.minStack || data.count > data.maxStack){
+            data.count--;
+			continue;
+        }
+        
 		data.count--;
 
-		if (data.count > 0)
-			continue;
-
-		// out of last aura of this kind, remove modifications
+		// remove modifications
 		if (data.add)
 			this.modificationsCache.get(value).get(ent).add -= data.add;
 
@@ -160,9 +164,11 @@ AuraManager.prototype.RemoveBonus = function(value, ents, key)
 			this.modificationsCache.get(value).get(ent).multiply /= data.multiply;
 
 		// clean up the object
-		e.delete(key);
-		if (e.size == 0)
-			v.delete(ent);
+        if (data.count <1){
+            e.delete(key);
+            if (e.size == 0)
+                v.delete(ent);   
+        }
 
 		// post message to the entity to notify it about the change
 		Engine.PostMessage(ent, MT_ValueModification, {

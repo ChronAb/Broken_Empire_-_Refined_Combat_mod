@@ -21,8 +21,10 @@ Auras.prototype.Init = function()
 // We can modify identifier if we want stackable auras in some case.
 Auras.prototype.GetModifierIdentifier = function(name)
 {
-	if (AuraTemplates.Get(name).stackable)
+	/*  **** replace by new logic in AuraManager.js
+    if (AuraTemplates.Get(name).stackable)
 		return name + this.entity;
+    */
 	return name;
 };
 
@@ -63,6 +65,24 @@ Auras.prototype.GetRange = function(name)
 	return undefined;
 };
 
+Auras.prototype.GetMinStack = function(name)
+{
+    if (AuraTemplates.Get(name).minStack)
+		return AuraTemplates.Get(name).minStack;
+	return 1;
+};
+
+Auras.prototype.GetMaxStack = function(name)
+{
+    if (AuraTemplates.Get(name).maxStack)
+		return AuraTemplates.Get(name).maxStack;
+    if (AuraTemplates.Get(name).stackable)
+		return 10;
+    if (AuraTemplates.Get(name).minStack)
+		return AuraTemplates.Get(name).minStack;
+	return 1;
+};
+
 Auras.prototype.GetClasses = function(name)
 {
 	return AuraTemplates.Get(name).affects;
@@ -72,6 +92,8 @@ Auras.prototype.GetModifications = function(name)
 {
 	return AuraTemplates.Get(name).modifications;
 };
+
+
 
 Auras.prototype.GetAffectedPlayers = function(name)
 {
@@ -405,7 +427,9 @@ Auras.prototype.ApplyBonus = function(name, ents)
 	var cmpAuraManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_AuraManager);
 
 	for (let mod of modifications)
-		cmpAuraManager.ApplyBonus(mod.value, validEnts, mod, this.GetModifierIdentifier(name));
+		cmpAuraManager.ApplyBonus(mod.value, validEnts, mod, this.GetModifierIdentifier(name),
+                this.GetMinStack(name), this.GetMaxStack(name)); // new logic for stacking ****
+                
 	// update status bars if this has an icon
 	if (!this.GetOverlayIcon(name))
 		return;
