@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_ranged">
+  <Attack>
+    <Ranged>
+      <Hack>0</Hack>
+      <Pierce>30.0</Pierce>
+      <Crush>0</Crush>
+      <MaxRange>80.0</MaxRange>
+      <MinRange>12.0</MinRange>
+      <ProjectileSpeed>50.0</ProjectileSpeed>
+      <Gravity>20.0</Gravity>
+      <PrepareTime>1200</PrepareTime>
+      <RepeatTime>8000</RepeatTime>
+      <RestTime>5000</RestTime>
+      <AmmoCap>30</AmmoCap>
+      <AmmoResetTime>30000</AmmoResetTime>
+      <Spread>5.0</Spread>
+      <Delay>0</Delay>
+      <Bonuses>
+        <BonusHunt>
+          <Classes>Animal</Classes>
+          <Multiplier>3.0</Multiplier>
+        </BonusHunt>
+      </Bonuses>
+      <PreferredClasses datatype="tokens">SkirmFocus Worker Human</PreferredClasses>
+    </Ranged>
+  </Attack>
+  <Identity>
+	<Classes datatype="tokens">Arrows</Classes>
+    <VisibleClasses datatype="tokens">Archer</VisibleClasses>
+    <GenericName>Archer</GenericName>
+    <History>Ancient archers tended to be quick and lightly armored.  They usually only participated in the first stage of open battle by warding off opposing skirmishers and raining arrows down on the enemy infantry.  Usually they would stop shooting once the melee fighting began, meaning their job was largely over when the 'true battle' started.
+    They served a bigger role in defensive actions, where they could pelt the enemy from behind multiple layers of fortification.
+    It took years of training to become proficient with a war bow, but being hit by an arrow was still more likely an act of random chance than being specifically targeted by an archer.</History>
+	<Tooltip>Archers are useful to zone away skirmishers or light cavalry and to grind down heavy infantry, particularly pikemen.  They are not much use against fortified buildings, and must be protected from heavy cavalry.</Tooltip>
+  </Identity>
+  <Vision>
+    <Range>40</Range>
+  </Vision>
+</Entity>

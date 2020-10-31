@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_ranged">
+  <Attack>
+    <Ranged>
+      <Hack>0</Hack>
+      <Pierce>25</Pierce>
+      <Crush>0</Crush>
+      <MaxRange>120.0</MaxRange>
+      <MinRange>30.0</MinRange>
+      <ProjectileSpeed>60</ProjectileSpeed>
+      <Gravity>20.0</Gravity>
+      <PrepareTime>1500</PrepareTime>
+      <RepeatTime>5000</RepeatTime>
+      <RestTime>2000</RestTime>
+      <AmmoCap>20</AmmoCap>
+      <AmmoResetTime>6000</AmmoResetTime>
+      <Spread>12.0</Spread>
+      <Delay>0</Delay>
+      <PreferredClasses datatype="tokens">Ranged Human</PreferredClasses>
+      <RestrictedClasses datatype="tokens">Skittish</RestrictedClasses>
+    </Ranged>
+  </Attack>
+  <Cost>
+    <Resources>
+      <wood>0</wood>
+    </Resources>
+  </Cost>
+  <Identity>
+    <VisibleClasses datatype="tokens">Sling</VisibleClasses>
+    <GenericName>Slinger</GenericName>
+    <History>Throwing rocks is one of the earliest forms of human weaponry, long pre-dating Homo sapiens itself.  A sling gives the thrower a major advantage by allowing them to impart much more kinetic energy into their projectile.
+    Slings are also extremely easy to fabricate, equip, conceal, and transport, and a skilled slinger can achieve terrifying range and accuracy with a little practice.  Perhaps that is why they are the only ancient weapon still in widespread use by insurgent groups in the age of automatic firearms.
+    For the same reasons, many ancient armies employed large contingents of slingers as lightly armored skirmishers and fire-support auxiliaries.</History>
+	<Tooltip>Slingers are the most basic type of long range support infantry.  They are agile and cheap, but pay for it with inferior damage.  They are very vulnerable against archers and cavalry.</Tooltip>
+  </Identity>
+  <Loot>
+    <wood>0</wood>
+  </Loot>
+  <UnitMotion>
+    <FormationController>false</FormationController>
+    <WalkSpeed>10.0</WalkSpeed>
+    <PassabilityClass>default</PassabilityClass>
+  </UnitMotion>
+  <Vision>
+    <Range>60</Range>
+  </Vision>
+</Entity>

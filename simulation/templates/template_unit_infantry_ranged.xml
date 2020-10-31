@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry">
+  <Armour>
+    <Hack>0</Hack>
+    <Pierce>0</Pierce>
+    <Crush>0</Crush>
+  </Armour>
+  <Attack>
+    <Ranged>
+      <Hack>0</Hack>
+      <Pierce>100</Pierce>
+      <Crush>0</Crush>
+      <MaxRange>10.0</MaxRange>
+      <MinRange>0.0</MinRange>
+      <ProjectileSpeed>75.0</ProjectileSpeed>
+      <Gravity>20.0</Gravity>
+      <PrepareTime>750</PrepareTime>
+      <RepeatTime>1250</RepeatTime>
+      <RestTime>0</RestTime>
+      <AmmoCap>-1</AmmoCap>
+      <AmmoResetTime>30000</AmmoResetTime>
+      <Spread>3.0</Spread>
+      <Delay>0</Delay>
+    </Ranged>
+  </Attack>
+  <Identity>
+    <GenericName>Ranged</GenericName>
+    <Classes datatype="tokens">SkirmFocus</Classes>
+    <VisibleClasses datatype="tokens">Ranged</VisibleClasses>
+    <Formations datatype="tokens">
+      special/formations/skirmish
+    </Formations>
+  </Identity>
+  <TrainingRestrictions>
+    <Category>Skirmisher</Category>
+  </TrainingRestrictions>
+  <UnitMotion>
+    <FormationController>false</FormationController>
+    <WalkSpeed>8.0</WalkSpeed>
+    <Run>
+      <Speed>14.0</Speed>
+      <Range>50.0</Range>
+      <RangeMin>0.0</RangeMin>
+      <RegenTime>0.1</RegenTime>
+      <DecayTime>0.2</DecayTime>
+    </Run>
+    <PassabilityClass>default</PassabilityClass>
+  </UnitMotion>
+  <Vision>
+    <Range>40</Range>
+  </Vision>
+</Entity>

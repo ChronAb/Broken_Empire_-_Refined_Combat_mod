@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_ranged">
+  <Attack>
+    <Capture>
+      <Value>5</Value>
+      <MaxRange>4</MaxRange>
+      <RepeatTime>1000</RepeatTime>
+      <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
+    </Capture>
+	<Ranged>
+      <Hack>24.0</Hack>
+      <Pierce>24.0</Pierce>
+      <Crush>0.0</Crush>
+      <MaxRange>40.0</MaxRange>
+      <MinRange>0.0</MinRange>
+      <ProjectileSpeed>35</ProjectileSpeed>
+      <Gravity>35.0</Gravity>
+      <PrepareTime>1500</PrepareTime>
+      <RepeatTime>3000</RepeatTime>
+      <RestTime>0</RestTime>
+      <AmmoCap>6</AmmoCap>
+      <AmmoResetTime>15000</AmmoResetTime>
+      <Spread>5.0</Spread>
+      <Delay>0</Delay>
+      <PreferredClasses datatype="tokens">Melee Human</PreferredClasses>
+    </Ranged>
+  </Attack>
+  <Identity>
+    <VisibleClasses datatype="tokens">Javelin</VisibleClasses>
+    <GenericName>Skirmisher</GenericName>
+    <History>Lightly armored javelinists were the main anti-infantry skirmishers of the ancient world.  They would advance quickly, throw a hail of javelins and then retreat back to their ranks, grab more spears, and repeat.
+    They didn't always have to throw their spears either.  They could also use them in hand-to-hand similar to a quarterstaff.  This made them more flexible than archers and slingers, with lasting utility in every stage of a battle.
+    The development of the Roman pilum was a key transition in the evolution of this weapon.  The pilum was a weapon with a long steel shaft that would sink into one or more shields and bend, making it nearly impossible to remove or throw back.  This made the pilum devastating against heavy infantry, who would have to discard their damaged shields before entering hand-to-hand.</History>
+	<Tooltip>Javelin skirmishers specialize in skewering enemy heavy infantry.  They are also good at capturing buildings.  Small shields help them take a few hits in hand-to-hand combat but are of little use against arrows or cavalry.</Tooltip>
+  </Identity>
+  <Vision>
+    <Range>40</Range>
+  </Vision>
+</Entity>
