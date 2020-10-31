@@ -70,8 +70,9 @@ Attack.prototype.Schema =
 			"<MaxRange>44.0</MaxRange>" +
 			"<MinRange>20.0</MinRange>" +
 			"<ElevationBonus>15.0</ElevationBonus>" +
-			"<PrepareTime>800</PrepareTime>" +
-			"<RepeatTime>1600</RepeatTime>" +
+			"<PrepareTime>1500</PrepareTime>" +
+			"<RepeatTime>3000</RepeatTime>" +
+            "<RestTime>0</RestTime>" +
 			"<ProjectileSpeed>50.0</ProjectileSpeed>" +
 			"<Spread>2.5</Spread>" +
 			"<Delay>1000</Delay>" +
@@ -143,6 +144,12 @@ Attack.prototype.Schema =
 				"</element>" +
 				"<element name='RepeatTime' a:help='Time between attacks (in milliseconds). The attack animation will be stretched to match this time'>" +
 					"<data type='positiveInteger'/>" +
+				"</element>" +
+				"<element name='AmmoCap' a:help='Maximum number of consecutive ranged attacks the unit can perform.'>" + 
+					"<data type='integer'/>" +
+				"</element>" +
+				"<element name='AmmoResetTime' a:help='Minimum length of time since the unit last attacked for the ammo count to reset to the cap.'>" + 
+					"<data type='nonNegativeInteger'/>" +
 				"</element>" +
 				"<element name='ProjectileSpeed' a:help='Speed of projectiles (in metres per second)'>" +
 					"<ref name='positiveDecimal'/>" +
@@ -436,9 +443,15 @@ Attack.prototype.GetTimers = function(type)
 {
 	let prepare = +(this.template[type].PrepareTime || 0);
 	prepare = ApplyValueModificationsToEntity("Attack/" + type + "/PrepareTime", prepare, this.entity);
-
+    
 	let repeat = +(this.template[type].RepeatTime || 1000);
 	repeat = ApplyValueModificationsToEntity("Attack/" + type + "/RepeatTime", repeat, this.entity);
+    
+    let rest = +(this.template[type].RestTime || 0);
+	rest = ApplyValueModificationsToEntity("Attack/" + type + "/RestTime", rest, this.entity);
+
+	return { "prepare": prepare, "repeat": repeat, "rest": rest };
+};
 
 	return { "prepare": prepare, "repeat": repeat };
 };

@@ -1784,6 +1784,8 @@ UnitAI.prototype.UnitFsmSpec = {
                 // try disabling to reduce unit ADHD ****
                 //if (msg.data.type == "Melee" && (this.GetStance().targetAttackersAlways || !this.order.data.force))
 					//this.RespondToTargetedEntities([msg.data.attacker]);
+                
+                // TODO: if attacker is closer than current target -> switch to fighting that one
 			},
 
 			"APPROACHING": {
@@ -1883,6 +1885,17 @@ UnitAI.prototype.UnitFsmSpec = {
 						}
 					}
 
+					this.oldAttackType = this.order.data.attackType;
+					// add prefix + no capital first letter for attackType
+					var animationName = "attack_" + this.order.data.attackType.toLowerCase();
+					if (this.IsFormationMember())
+					{
+						var cmpFormation = Engine.QueryInterface(this.formationController, IID_Formation);
+						if (cmpFormation)
+							animationName = cmpFormation.GetFormationAnimation(this.entity, animationName);
+					}
+					this.SetAnimationVariant("combat");
+                    
 					var cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
 					this.attackTimers = cmpAttack.GetTimers(this.order.data.attackType);
 
@@ -1894,21 +1907,12 @@ UnitAI.prototype.UnitFsmSpec = {
 						var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 						var repeatLeft = this.lastAttacked + this.attackTimers.repeat - cmpTimer.GetTime();
 						prepare = Math.max(prepare, repeatLeft);
+                        if (repeatLeft < this.attackTimers.repeat) 
+                            this.attackPhase = 0;
 					}
-
-					this.oldAttackType = this.order.data.attackType;
-					// add prefix + no capital first letter for attackType
-					var animationName = "attack_" + this.order.data.attackType.toLowerCase();
-					if (this.IsFormationMember())
-					{
-						var cmpFormation = Engine.QueryInterface(this.formationController, IID_Formation);
-						if (cmpFormation)
-							animationName = cmpFormation.GetFormationAnimation(this.entity, animationName);
-					}
-					this.SetAnimationVariant("combat");
 					this.SelectAnimation(animationName);
-					this.SetAnimationSync(prepare, this.attackTimers.repeat);
-					this.StartTimer(prepare, this.attackTimers.repeat);
+					this.SetAnimationSync(prepare, this.attackTimers.repeat-this.attackTimers.rest);
+					this.StartTimer(prepare, this.attackTimers.repeat-this.attackTimers.rest);
 					// TODO: we should probably only bother syncing projectile attacks, not melee
 
 					// If using a non-default prepare time, re-sync the animation when the timer runs.
@@ -1930,7 +1934,52 @@ UnitAI.prototype.UnitFsmSpec = {
 				},
 
 				"Timer": function(msg) {
-					var target = this.order.data.target;
+                    /*
+                    Attack Cycle Sequencing:
+                        1. determine which phase of the attack cycle the unit is in using 
+                    */
+                    
+                    var target = this.order.data.target;
+                    
+                    if(this.attackPhase == 1)//reload->rest
+                    {
+                        this.attackPhase = 2;
+                        this.StopTimer(); 
+                        this.SelectAnimation("idle");
+                        //this.SetAnimationSync(this.attackTimers.repeat-this.attackTimers.prepare, this.attackTimers.repeat);
+                        this.StartTimer(this.attackTimers.rest); 
+                        return;
+                    }
+                    
+                    if(this.attackPhase == 2)//rest->attack
+                    {
+                        this.attackPhase = 0;
+                        this.StopTimer(); 
+                        // Start the next attack if the target is in range
+                        if(this.CheckTargetAttackRange(target, this.order.data.attackType)){
+                            var animationName = "attack_" + this.order.data.attackType.toLowerCase();
+                            this.SelectAnimation(animationName);
+                            this.SetAnimationSync(this.attackTimers.prepare, this.attackTimers.repeat-this.attackTimers.rest);
+                            this.StartTimer(this.attackTimers.prepare);
+                            return;
+                        }
+                        
+                        // Can't reach it - try to chase after it
+						if (this.ShouldChaseTargetedEntity(target, this.order.data.force))
+						{
+							if (this.CanPack())
+							{
+								this.PushOrderFront("Pack", { "force": true });
+								return;
+							}
+							if (this.MoveToTargetRange(target, IID_Attack, this.order.data.attackType))
+							{
+								this.SetNextState("COMBAT.CHASING");
+								return;
+							}
+						}
+                    }
+                    
 					var cmpFormation = Engine.QueryInterface(target, IID_Formation);
 					// if the target is a formation, save the attacking formation, and pick a member
 					if (cmpFormation)
@@ -1960,25 +2009,34 @@ UnitAI.prototype.UnitFsmSpec = {
 								this.orderQueue[1].data.secondTry = undefined;
 							}
 						}
-
-						var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-						this.lastAttacked = cmpTimer.GetTime() - msg.lateness;
-
+                        
+                        // Valid target found so rotate to face it
 						this.FaceTowardsTarget(target);
 
-                        // Finally we are ready to trigger the attack
-						// BuildingAI has it's own attack-routine
-						var cmpBuildingAI = Engine.QueryInterface(this.entity, IID_BuildingAI);
-						if (!cmpBuildingAI)
-						{
-                            // Final Check that the target is still mostly in range -- Very Important ****(new)
-                            if (this.CheckTargetAttackRange( target, this.order.data.attackType, 10, 15, 0 ))
+                        // Lastly, Check that the target is still mostly in range -- Very Important ****(new)
+                        if (this.CheckTargetAttackRange( target, this.order.data.attackType, 10, 15, 0 ))
+                        {
+                            // Now we are finally we are ready to trigger the attack
+                            var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+                            this.lastAttacked = cmpTimer.GetTime() - msg.lateness;
+                            
+                            // BuildingAI has it's own attack-routine
+                            var cmpBuildingAI = Engine.QueryInterface(this.entity, IID_BuildingAI);
+                            if (!cmpBuildingAI)
                             {
+
                                 let cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
                                 cmpAttack.PerformAttack(this.order.data.attackType, target); 
+                                if (this.attackTimers.rest>0){
+                                    this.attackPhase = 1; //attack->reload
+                                    this.StopTimer(); 
+                                    this.StartTimer(this.attackTimers.repeat-this.attackTimers.prepare-this.attackTimers.rest);
+                                }
+                                // TODO: if (RestTime>0) this.SetNextState("RESTING");
+                                //   this.SetAnimationVariant("combat"); this.SelectAnimation("idle"); this.StartTimer(ReloadTime, RestTime); 
+                                //   this.attackPhase = 1;
                             }
-                            // ****
-						}
+						}// ****
 
 						// Check we can still reach the target for the next attack
 						if (this.CheckTargetAttackRange(target, this.order.data.attackType))
@@ -1989,21 +2047,6 @@ UnitAI.prototype.UnitFsmSpec = {
 								this.resyncAnimation = false;
 							}
 							return;
-						}
-
-						// Can't reach it - try to chase after it
-						if (this.ShouldChaseTargetedEntity(target, this.order.data.force))
-						{
-							if (this.CanPack())
-							{
-								this.PushOrderFront("Pack", { "force": true });
-								return;
-							}
-							if (this.MoveToTargetRange(target, IID_Attack, this.order.data.attackType))
-							{
-								this.SetNextState("COMBAT.CHASING");
-								return;
-							}
 						}
 					}
 
@@ -3311,6 +3354,8 @@ UnitAI.prototype.Init = function()
 	// For preventing increased action rate due to Stop orders or target death.
 	this.lastAttacked = undefined;
 	this.lastHealed = undefined;
+    this.attackPhase = 0;
+    
 
 	this.SetStance(this.template.DefaultStance);
 };
