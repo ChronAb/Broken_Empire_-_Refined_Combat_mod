@@ -145,7 +145,7 @@ Damage.prototype.MissileHit = function(data, lateness)
 
 	// If we didn't hit the main target look for nearby units
 	let cmpPlayer = QueryPlayerIDInterface(data.attackerOwner);
-	let ents = this.EntitiesNearPoint(Vector2D.from3D(data.position), targetPosition.horizDistanceTo(data.position) * 2, cmpPlayer.GetEnemies());
+	let ents = this.EntitiesNearPoint(Vector2D.from3D(data.position), targetPosition.horizDistanceTo(data.position) * 2, Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager).GetAllPlayers());
 	for (let ent of ents)
 	{
 		if (!this.TestCollision(ent, data.position, lateness))
