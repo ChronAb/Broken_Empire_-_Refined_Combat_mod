@@ -1,0 +1,14 @@
+{
+	"type": "range",
+	"radius": 120,
+	"affectedPlayers": ["Enemy"],
+	"affects": ["Human", "Structure", "Mechanical"],
+	"modifications": [
+	  { "value": "Health/RegenRate", "add": -1,  "affects": "Human"  },
+	  { "value": "Health/RegenRate", "add": -5,  "affects": "Structure"  },
+	  { "value": "Health/RegenRate", "add": -2,  "affects": "Mechanical"  }
+	],
+	"auraName": "Righteous Insurrection",
+	"auraDescription": "Fearless citizens relentlessly harass and sabotage enemy intruders, causing damage over time.",
+	"overlayIcon": "art/textures/ui/session/auras/fear.png"
+}

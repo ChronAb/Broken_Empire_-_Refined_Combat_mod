@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_melee_swordsman">
+  <Armour>
+    <Hack>5</Hack>
+    <Pierce>9</Pierce>
+  </Armour>
+  <Attack>
+    <Melee>
+      <RestrictedClasses datatype="tokens">Cavalry</RestrictedClasses>
+    </Melee>
+	<Ranged>
+      <Hack>0.0</Hack>
+      <Pierce>40.0</Pierce>
+      <Crush>15.0</Crush>
+      <MaxRange>20.0</MaxRange>
+      <MinRange>0.0</MinRange>
+      <ProjectileSpeed>30</ProjectileSpeed>
+      <Gravity>30.0</Gravity>
+      <PrepareTime>1500</PrepareTime>
+      <RepeatTime>3000</RepeatTime>
+      <RestTime>0</RestTime>
+      <AmmoCap>2</AmmoCap>
+      <AmmoResetTime>20000</AmmoResetTime>
+      <Spread>5.0</Spread>
+      <Delay>0</Delay>
+      <PreferredClasses datatype="tokens">Melee Human</PreferredClasses>
+    </Ranged>
+  </Attack>
+  <Builder>
+    <Entities datatype="tokens">
+      structures/rome_army_camp
+    </Entities>
+  </Builder>
+  <Cost>
+    <Resources>
+      <metal op="add">40</metal>
+    </Resources>
+  </Cost>
+  <Identity>
+    <Civ>rome</Civ>
+    <Lang>latin</Lang>
+    <SelectionGroupName>units/rome_infantry_swordsman_b</SelectionGroupName>
+    <GenericName>Romani Heavy Infantry</GenericName>
+    <SpecificName>Legionnaire</SpecificName>
+    <Classes datatype="tokens">Javelin</Classes>
+    <VisibleClasses datatype="tokens">Ranged Pilum</VisibleClasses>
+    <Icon>units/rome_infantry_swordsman.png</Icon>
+    <History>The hastati were the first line of heavy infantry in the early Republican Roman army. They used pila and gladii as their main weapons, throwing the former into the enemy formation and then closing with the sword. For defense they used a large shield called a scutum and wore the best armor they could afford. Hastati were recruited from the young men of Rome, a small part of the 700,000 troops Rome could bring to bear against its opponents.</History>
+	<Tooltip>Equipped with a large anti-projectile shield, heavy javelins, and a sword.  Hastati excel against isolated pockets of enemy infantry and at capturing or destroying building.  They are at their weakest against skirmishers and heavy cavalry.</Tooltip>
+    <RequiredTechnology>phase_village_2</RequiredTechnology>
+  </Identity>
+  <Promotion>
+    <Entity>units/rome_infantry_swordsman_2</Entity>
+  </Promotion>
+  <VisualActor>
+    <Actor>units/BE_Romani/infantry_swordsman_1.xml</Actor>
+  </VisualActor>
+</Entity>

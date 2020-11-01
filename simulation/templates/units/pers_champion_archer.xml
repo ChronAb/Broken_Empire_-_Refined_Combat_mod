@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_ranged_archer">
+  <Armour>
+    <Hack>7</Hack>
+    <Pierce>10</Pierce>
+  </Armour>
+  <Attack>
+    <Ranged>
+      <MinRange>9.0</MinRange>
+      <PrepareTime>800</PrepareTime>
+      <RepeatTime>4000</RepeatTime>
+      <RestTime>2000</RestTime>
+      <AmmoCap>60</AmmoCap>
+      <Spread>2.0</Spread>
+    </Ranged>
+    <Melee>
+      <Hack>20.0</Hack>
+      <Pierce>10.0</Pierce>
+      <Crush>0.0</Crush>
+      <MaxRange>9.0</MaxRange>
+      <PrepareTime>100</PrepareTime>
+      <RepeatTime>2000</RepeatTime>
+      <PreferredClasses datatype="tokens">ArrowProof Human</PreferredClasses>
+    </Melee>
+  </Attack>
+  <Cost>
+    <Population>2</Population>
+    <BuildTime>50</BuildTime>
+    <Resources>
+      <food op="mul">6.0</food>
+      <wood>100</wood>
+      <metal>300</metal>
+    </Resources>
+  </Cost>
+  <Health>
+    <Max>100</Max>
+    <RegenRate op="add">1.0</RegenRate>
+  </Health>
+  <Identity>
+    <Civ>pers</Civ>
+    <Rank>Elite</Rank>
+    <GenericName>Parthi Champion Archer</GenericName>
+    <SpecificName>Bow Immortal</SpecificName>
+    <Classes datatype="tokens">-CitizenSoldier -SkirmFocus Immortal</Classes>
+    <VisibleClasses datatype="tokens">-Weak -Worker Champion</VisibleClasses>
+    <Icon>units/pers_champion_infantry.png</Icon>
+    <RequiredTechnology>unlock_champion_units</RequiredTechnology>
+  </Identity>
+  <Loot>
+    <xp>250</xp>
+    <metal>50</metal>
+  </Loot>
+  <Promotion disable=""/>
+  <ResourceGatherer disable=""/>
+  <Selectable>
+    <Overlay>
+      <Texture>
+        <MainTexture>arrow/128x128.png</MainTexture>
+        <MainTextureMask>arrow/128x128_mask.png</MainTextureMask>
+      </Texture>
+    </Overlay>
+  </Selectable>
+  <TrainingRestrictions>
+    <Category>Ranger</Category>
+  </TrainingRestrictions>
+  <UnitAI>
+    <DefaultStance>standground</DefaultStance>
+  </UnitAI>
+  <Upgrade>
+    <Stance>
+      <Entity>units/pers_champion_infantry</Entity>
+      <Tooltip>(Reversible)</Tooltip>
+      <Time>1</Time>
+    </Stance>
+  </Upgrade>
+  <VisualActor>
+    <Actor>units/BE_Parthi/infantry_archer_c.xml</Actor>
+  </VisualActor>
+</Entity>

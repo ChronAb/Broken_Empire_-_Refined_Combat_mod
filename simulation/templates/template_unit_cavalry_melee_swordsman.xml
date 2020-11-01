@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_cavalry_melee">
+  <Attack>
+    <Capture>
+      <Value>5</Value>
+    </Capture>
+    <Melee>
+      <Hack>70.0</Hack>
+      <Pierce>0</Pierce>
+      <Crush>30.0</Crush>
+      <RepeatTime>2000</RepeatTime>
+      <Bonuses>
+        <SpearPenalty>
+          <Classes>Infantry Spear</Classes>
+          <Multiplier>0.2</Multiplier>
+        </SpearPenalty>
+      </Bonuses>
+    </Melee>
+  </Attack>
+  <Cost>
+    <Resources>
+      <metal op="add">80</metal>
+    </Resources>
+  </Cost>
+  <Identity>
+    <VisibleClasses datatype="tokens">Sword LightCav</VisibleClasses>
+    <GenericName>Cavalry Swordsman</GenericName>
+    <History>From the first instances of mounted combat, ancient cavalrymen and charioteers carried swords and axes for self-defense in the event they were unhorsed.  When they began to actively employ these arms in mounted combat is more difficult to determine.
+    Mounted swordsmanship required a longer blade than was available on typical infantry swords: a challenge for ancient metallurgists.  Close quarters fighting also required considerable skill on horse-back.  One may speculate that elites of the time were eager to test themselves against both challenges.
+    By the Roman Imperial era, the prevalence of recognized cavalry swords such as the spatha, and developments in saddle morphology, show the importance of mounted swordsmanship.</History>
+	<Tooltip>Slightly faster than other cavalry, but no less deadly.  Civilians, ranged infantry, and siege weapons are their favorite prey.  They are also good at capturing buildings, and chasing down light cavalry.  Avoid direct clashes with massed spears, pikes, and other heavy cavalry.</Tooltip>
+  </Identity>
+  <Loot>
+    <metal op="add">80</metal>
+  </Loot>
+  <UnitMotion>
+    <WalkSpeed op="add">4.0</WalkSpeed>
+    <Run>
+      <Speed op="add">4.0</Speed>
+    </Run>
+  </UnitMotion>
+</Entity>

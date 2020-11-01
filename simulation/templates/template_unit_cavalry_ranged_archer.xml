@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_cavalry_ranged">
+  <Attack>
+    <Ranged>
+      <Hack>0</Hack>
+      <Pierce>30.0</Pierce>
+      <Crush>0</Crush>
+      <MaxRange>60.0</MaxRange>
+      <MinRange>12.0</MinRange>
+      <ProjectileSpeed>50.0</ProjectileSpeed>
+      <PrepareTime>1200</PrepareTime>
+      <RepeatTime>8000</RepeatTime>
+      <RestTime>5000</RestTime>
+      <AmmoCap>30</AmmoCap>
+      <AmmoResetTime>30000</AmmoResetTime>
+      <Spread>4.0</Spread>
+      <Delay>0</Delay>
+      <Bonuses>
+        <BonusHunt>
+          <Classes>Animal</Classes>
+          <Multiplier>3.0</Multiplier>
+        </BonusHunt>
+      </Bonuses>
+      <PreferredClasses datatype="tokens">Ranged Human</PreferredClasses>
+    </Ranged>
+  </Attack>
+  <Cost>
+    <Resources>
+      <wood op="add">50</wood>
+    </Resources>
+  </Cost>
+  <Identity>
+	<Classes datatype="tokens">Arrows</Classes>
+    <VisibleClasses datatype="tokens">Archer</VisibleClasses>
+    <GenericName>Cavalry Archer</GenericName>
+    <History>With the exception of bronze-age chariots, mounted archery was a novelty in the ancient world.  Horses were expensive, and the bow was not effective enough a weapon to justify diverting that asset to a harassment role once shock cavalry were in play.
+    Using a bow at a full gallop was also a very difficult skill to master.  It was not until well after the rise of the Roman Empire that changes in equipment, tactics, and culture finally aligned to thrust the mounted archer back to the fore.</History>
+	<Tooltip>Mounted archers combine extreme mobility and a long attack range, making them hard to counter at harassment and raiding.  However their attack power is abysmal for their cost, and they are easily seen off by enemy infantry and fortifications that out range them.</Tooltip>
+  </Identity>
+  <Loot>
+    <wood op="add">10</wood>
+  </Loot>
+</Entity>

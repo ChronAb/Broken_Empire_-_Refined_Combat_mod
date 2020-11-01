@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_melee">
+  <Attack>
+    <Capture>
+      <Value>2</Value>
+      <MaxRange>4</MaxRange>
+      <RepeatTime>1000</RepeatTime>
+      <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
+    </Capture>
+    <Melee>
+      <Hack>10.0</Hack>
+      <Pierce>5.0</Pierce>
+	  <MaxRange>9.0</MaxRange>
+      <RepeatTime>2000</RepeatTime>
+      <PreferredClasses datatype="tokens">Cavalry Melee Human</PreferredClasses>
+    </Melee>
+  </Attack>
+  <Auras datatype="tokens">
+    massed_shields
+  </Auras>
+  <Identity>
+    <VisibleClasses datatype="tokens">Spear</VisibleClasses>
+    <GenericName>Spearman</GenericName>
+    <History>The spear is one of the most basic of human weapons.  Fighting with a sharp point at the end of the pole doesn’t require a lot of technology.  The spear allow fighters to distance themselves from their attackers.
+    They were originally employed by individual warriors in a fighting style similar to the quarterstaff.  As time passed the spears got longer and were used in formations.
+    Spearmen tended to be as heavily armored as possible, as carrying a long pole-arm already limits mobility.  Many used large shields such as the Greek hoplon.</History>
+    <Tooltip>Highly effective for group-fighting vs cavalry and infantry.  Excellent defense vs slings and arrows.  Weak vs skirmishers and swordsmen.</Tooltip>
+  </Identity>
+</Entity>

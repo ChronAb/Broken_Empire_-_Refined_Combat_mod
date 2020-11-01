@@ -1,0 +1,16 @@
+{
+	"type": "range",
+	"radius": 45,
+	"affects": ["Human"],
+	"modifications": [
+		{ "value": "UnitMotion/WalkSpeed", "add": 4.0 },
+		{ "value": "UnitMotion/Run/Speed", "add": 3.0 }
+	],
+	"auraName": "Public Order",
+	"auraDescription": "+4 movement speed for nearby citizens.",
+	"rangeOverlay" : {
+		"lineTexture": "outline_border.png",
+		"lineTextureMask": "outline_border_mask.png",
+		"lineThickness": 0.075
+	}
+}

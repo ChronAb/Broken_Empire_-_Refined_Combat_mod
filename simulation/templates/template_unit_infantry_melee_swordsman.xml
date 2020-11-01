@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_melee">
+  <Attack>
+    <Capture>
+      <Value>5</Value>
+      <MaxRange>4</MaxRange>
+      <RepeatTime>1000</RepeatTime>
+      <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
+    </Capture>
+    <Melee>
+      <Hack>30</Hack>
+      <Pierce>0</Pierce>
+      <Crush>0.0</Crush>
+      <MaxRange>6</MaxRange>
+      <RepeatTime>2000</RepeatTime>
+      <PreferredClasses datatype="tokens">Siege Melee Human</PreferredClasses>
+    </Melee>
+  </Attack>
+  <Auras datatype="tokens">
+    massed_shields
+  </Auras>
+  <Cost>
+    <Resources>
+      <wood>40</wood>
+      <metal>60</metal>
+    </Resources>
+  </Cost>
+  <Identity>
+    <VisibleClasses datatype="tokens">Sword</VisibleClasses>
+    <GenericName>Swordsman</GenericName>
+    <History>Swords have a long history of use as sidearms in ancient warfare, but their use as a primary weapon was relatively unusual.
+    Long and durable swords pushed the limits of pre-industrial metallurgy while still lacking the reach of spears, so they were mainly employed as status symbols by nobles and elites.  However a sword does have some advantages over a spear in being lighter and better for close quarters fighting.
+    Eventually advances in iron working made infantry swordsmen reliable mainstays of the Imperial Romans and their contemporaries.</History>
+    <Tooltip>Swordsmen specialize in hacking down isolated pockets of enemy spearmen and capturing or destroying buildings.  Their large shields give excellent protection from arrows but are slightly cumbersome to movement and hand combat.  They are weak against skirmishers and cavalry.</Tooltip>
+  </Identity>
+  <Loot>
+    <wood op="add">10</wood>
+    <metal op="add">60</metal>
+  </Loot>
+</Entity>

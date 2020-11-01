@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_cavalry_melee">
+  <Attack>
+    <Melee>
+      <Hack>40.0</Hack>
+      <Pierce>80.0</Pierce>
+      <Crush>30.0</Crush>
+      <MaxRange>4.5</MaxRange>
+      <RepeatTime>2000</RepeatTime>
+      <Bonuses>
+        <SpearPenalty>
+          <Classes>Infantry Spear</Classes>
+          <Multiplier>0.2</Multiplier>
+        </SpearPenalty>
+      </Bonuses>
+    </Melee>
+  </Attack>
+  <Cost>
+    <Resources>
+      <wood op="add">40</wood>
+    </Resources>
+  </Cost>
+  <Identity>
+    <VisibleClasses datatype="tokens">Spear HeavyCav</VisibleClasses>
+    <GenericName>Cavalry Spearman</GenericName>
+    <History>A spear was the ancient rider’s weapon of choice.  It could reach enemies from a safe distance, while the intimidation of the charging horse kept opponents at bay.
+    Initially javelins were preferred, but pioneers such as the Macedonians eventually discovered techniques to absorb the shock of direct impact.  Thus heavy cavalry was born.  As with all cavalry, only the rich could afford to fight from horseback due to the expense of owning such a beast.
+    The mounted spearman would eventually evolve into the medieval knight (after heavy influence by the Sarmartians and their lances).</History>
+	<Tooltip>Quintessential heavy cavalry.  Ideal for cutting through enemy civilians, ranged infantry, and swordsmen.  -80% attack strength vs polearms.  Avoid clashes with massed spears and pikes.</Tooltip>
+  </Identity>
+  <Loot>
+    <wood op="add">10</wood>
+  </Loot>
+</Entity>

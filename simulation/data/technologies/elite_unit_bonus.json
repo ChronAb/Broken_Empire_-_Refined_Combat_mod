@@ -1,0 +1,27 @@
+{
+	"autoResearch": true,
+	"icon": "upgrade_elite.png",
+	"tooltip": "Units promoted to the elite class gain a lot of quality: +50% extra health over their basic version, 2X faster attack speed and capture rate, and 4 extra hack armor for all units, also 10m extra range for ranged units, and increased heal speed and range for healers.",
+	"modifications": [
+		{"value": "Health/Max",                 "multiply": 3.0                        },
+		{"value": "Armour/Hack",                "add":      4                          },
+		{"value": "Attack/Capture/Value",       "multiply": 2                          },
+		{"value": "Promotion/RequiredXp",       "multiply": 8.0,  "affects": "Melee"    },
+		{"value": "Promotion/RequiredXp",       "multiply": 5.0,  "affects": "Ranged"   },
+		{"value": "Loot/xp",                    "multiply": 4                          },
+		
+		{"value": "Attack/Ranged/RepeatTime",   "multiply": 0.5                        },
+		{"value": "Attack/Melee/RepeatTime",    "multiply": 0.5                        },
+		
+		{"value": "Attack/Ranged/MaxRange",     "add":      20,   "affects": "Ranged"  },
+		{"value": "Vision/Range",               "add":      20,   "affects": "Ranged"  },
+		
+		{"value": "Vision/Range",               "add":      6,    "affects": "Healer"  },
+		{"value": "Heal/HP",                    "multiply": 3,    "affects": "Healer"  },
+        
+		{"value": "Attack/Ranged/RepeatTime",   "multiply": 1.2,  "affects": "Sling"    },
+        
+		{"value": "Attack/Ranged/RepeatTime",   "multiply": 1.6,  "affects": "Javelin"  }
+	],
+	"affects": ["Elite Unit"]
+}

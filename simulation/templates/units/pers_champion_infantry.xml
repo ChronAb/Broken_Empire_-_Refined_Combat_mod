@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_champion_infantry_spearman">
+  <Armour>
+    <Hack op="add">0</Hack>
+    <Pierce op="add">4</Pierce>
+  </Armour>
+  <Health>
+    <RegenRate op="add">1.0</RegenRate>
+  </Health>
+  <Identity>
+    <Civ>pers</Civ>
+    <GenericName>Persian Spear Immortal</GenericName>
+    <SpecificName>Anusiya</SpecificName>
+    <Classes datatype="tokens">Immortal</Classes>
+    <Icon>units/pers_champion_infantry.png</Icon>
+    <RequiredTechnology>unlock_champion_units</RequiredTechnology>
+  </Identity>
+  <TrainingRestrictions>
+    <Category>Ranger</Category>
+  </TrainingRestrictions>
+  <Upgrade>
+    <Stance>
+      <Entity>units/pers_champion_archer</Entity>
+      <Tooltip>(Reversible)</Tooltip>
+      <Time>1</Time>
+    </Stance>
+  </Upgrade>
+  <VisualActor>
+    <Actor>units/BE_Parthi/infantry_spearman_c1.xml</Actor>
+  </VisualActor>
+</Entity>

@@ -1,0 +1,14 @@
+{
+	"type": "range",
+	"radius": 40,
+	"affectedPlayers": ["Enemy","Ally"],
+	"affects": ["Unit"],
+	"modifications": [
+	  {"value": "Armour/Pierce", "add": 5},
+      {"value": "UnitMotion/WalkSpeed", "multiply": 0.6},
+      {"value": "UnitMotion/Run/Speed", "multiply": 0.6}
+	],
+	"auraName": "Cover",
+	"auraDescription": "Units under dense tree cover gain +5 pierce armor and are slowed by 40%.",
+	"overlayIcon": "art/textures/ui/session/auras/armor_bonus.png"
+}

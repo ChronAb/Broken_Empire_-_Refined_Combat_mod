@@ -1,0 +1,19 @@
+{
+	"type": "range",
+	"radius": 15,
+	"affectedPlayers": ["Player", "Ally"],
+	"affects": ["Human"],
+	"modifications": [
+        { "value": "Health/RegenRate", "add": 0.2, "affects": "Infantry" },
+        { "value": "Health/RegenRate", "add": 0.6, "affects": "Cavalry" },
+        { "value": "Health/RegenRate", "add": 0.1, "affects": "FemaleCitizen" }
+	],
+	"auraName": "Holy Presence",
+	"auraDescription": "Nearby units very slowly regain HP.",
+	"overlayIcon": "art/textures/ui/session/auras/heal.png",
+	"rangeOverlay" : {
+		"lineTexture": "outline_border.png",
+		"lineTextureMask": "outline_border_mask.png",
+		"lineThickness": 0.075
+	}
+}

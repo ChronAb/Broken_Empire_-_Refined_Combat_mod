@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_cavalry">
+  <Armour>
+    <Hack>10</Hack>
+  </Armour>
   <Attack>
+    <Capture  disable=""/>
     <Ranged>
       <Hack>0</Hack>
-      <Pierce>9.0</Pierce>
+      <Pierce>1.5</Pierce>
       <Crush>0</Crush>
-      <MaxRange>16.0</MaxRange>
+      <MaxRange>10.0</MaxRange>
       <MinRange>0.0</MinRange>
       <ProjectileSpeed>75.0</ProjectileSpeed>
-      <Gravity>9.81</Gravity>
-      <PrepareTime>1000</PrepareTime>
-      <RepeatTime>1500</RepeatTime>
+      <Gravity>30.0</Gravity>
+      <PrepareTime>750</PrepareTime>
+      <RepeatTime>1250</RepeatTime>
       <RestTime>0</RestTime>
       <AmmoCap>-1</AmmoCap>
       <AmmoResetTime>30000</AmmoResetTime>
       <Spread>3.0</Spread>
       <Delay>0</Delay>
-      <PreferredClasses datatype="tokens">Human</PreferredClasses>
     </Ranged>
   </Attack>
   <Health>
-    <Max>100</Max>
+    <Max op="mul">0.5</Max>
+	<RegenRate op="mul">0.5</RegenRate>
+    <IdleRegenRate op="mul">0.5</IdleRegenRate>
   </Health>
   <Identity>
     <GenericName>Ranged Cavalry</GenericName>
@@ -29,4 +34,12 @@
       special/formations/skirmish
     </Formations>
   </Identity>
+  <Sound>
+    <SoundGroups>
+      <attack>attack/weapon/arrowfly.xml</attack>
+    </SoundGroups>
+  </Sound>
+  <Vision>
+    <Range>30</Range>
+  </Vision>
 </Entity>

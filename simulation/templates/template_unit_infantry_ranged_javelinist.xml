@@ -8,8 +8,8 @@
       <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
     </Capture>
 	<Ranged>
-      <Hack>24.0</Hack>
-      <Pierce>24.0</Pierce>
+      <Hack>25.0</Hack>
+      <Pierce>20.0</Pierce>
       <Crush>0.0</Crush>
       <MaxRange>40.0</MaxRange>
       <MinRange>0.0</MinRange>

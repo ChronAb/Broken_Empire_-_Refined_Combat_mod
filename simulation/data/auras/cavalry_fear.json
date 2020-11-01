@@ -1,0 +1,22 @@
+{
+	"type": "range",
+	"radius": 28,
+	"affectedPlayers": ["Enemy"],
+	"affects": ["Infantry Sword", "Infantry Ranged"],
+	"modifications": [
+	  {"value": "Attack/Melee/Hack", "multiply": 0.2},
+      {"value": "Attack/Melee/Pierce", "multiply": 0.2},
+      {"value": "Attack/Melee/Crush", "multiply": 0.2},
+      {"value": "Attack/Ranged/Hack", "multiply": 0.2},
+      {"value": "Attack/Ranged/Pierce", "multiply": 0.2},
+      {"value": "Attack/Ranged/Crush", "multiply": 0.2}
+	],
+	"auraName": "Fear",
+	"auraDescription": "Chaos of the cavalry charge reduces sword and ranged infantry's attack strength by 80%.",
+	"overlayIcon": "art/textures/ui/session/auras/fear.png",
+	"rangeOverlay" : {
+		"lineTexture": "outline_border.png",
+		"lineTextureMask": "outline_border_mask.png",
+		"lineThickness": 0.0
+	}
+}

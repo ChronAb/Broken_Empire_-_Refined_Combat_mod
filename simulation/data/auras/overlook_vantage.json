@@ -1,0 +1,12 @@
+{
+	"type": "range",
+	"radius": 30,
+	"affectedPlayers": ["Enemy","Ally"],
+	"affects": ["Unit", "Structure"],
+	"modifications": [
+	  {"value": "Vision/Range", "add": 60}
+	],
+	"auraName": "Vantage",
+	"auraDescription": "Increases vision range of adjacent units and structures by 60 m.",
+	"overlayIcon": "art/textures/ui/session/auras/fear.png"
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_cavalry">
+  <Attack>
+    <Melee>
+      <Hack>13</Hack>
+      <Pierce>0</Pierce>
+      <Crush>0.0</Crush>
+      <MaxRange>3.5</MaxRange>
+      <PrepareTime>100</PrepareTime>
+      <RepeatTime>1500</RepeatTime>
+      <PreferredClasses datatype="tokens">Siege Support Ranged Human</PreferredClasses>
+    </Melee>
+  </Attack>
+  <Identity>
+    <VisibleClasses datatype="tokens">Melee</VisibleClasses>
+    <GenericName>Melee Cavalry</GenericName>
+  </Identity>
+  <Promotion>
+    <RequiredXp op="mul">1.25</RequiredXp>
+  </Promotion>
+</Entity>

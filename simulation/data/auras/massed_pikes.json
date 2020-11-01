@@ -1,0 +1,23 @@
+{
+	"type": "range",
+	"radius": 12,
+	"affects": ["Spear"],
+	"affectedPlayers": ["Player", "Ally"],
+	"modifications": [
+		{"value": "Armour/Hack", "add": 1.0 },
+		{"value": "Attack/Melee/Crush", "add": 5 },
+		{ "value": "UnitMotion/WalkSpeed", "add": -0.25 },
+		{ "value": "UnitMotion/Run/Speed", "add": -0.25 }
+	],
+	"auraName": "Pike Wall",
+	"auraDescription": "Friendly polearm units gain +5 melee crush attack and +1 hack armor per adjacent pikeman > 3, at the cost of movement speed.",
+	"overlayIcon": "art/textures/ui/session/auras/armor_bonus.png",
+	"stackable": true,
+    "minStack": 4,
+    "maxStack": 15,
+	"rangeOverlay" : {
+		"lineTexture": "outline_border.png",
+		"lineTextureMask": "outline_border_mask.png",
+		"lineThickness": 0.0
+	}
+}

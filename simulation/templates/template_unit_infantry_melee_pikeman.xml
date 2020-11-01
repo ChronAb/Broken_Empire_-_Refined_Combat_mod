@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_infantry_melee">
+  <Attack>
+    <Capture disable=""/>
+    <Melee>
+      <Hack>10.0</Hack>
+      <Pierce>20.0</Pierce>
+	  <MaxRange>12.0</MaxRange>
+      <RepeatTime>3000</RepeatTime>
+      <PreferredClasses datatype="tokens">Cavalry Melee Human</PreferredClasses>
+    </Melee>
+  </Attack>
+  <Auras datatype="tokens">
+    massed_pikes
+  </Auras>
+  <Cost>
+    <Resources>
+      <wood op="add">10</wood>
+    </Resources>
+  </Cost>
+  <Identity>
+    <GenericName>Pikeman</GenericName>
+    <Classes datatype="tokens">SkirmFocus</Classes>
+    <VisibleClasses datatype="tokens">Spear Pike</VisibleClasses>
+    <History>A pike is an extra long evolution of the spear that requires two hands to wield.  This precluded the use of large shields and made the weapon ineffective in close combat.  Therefore pikemen needed to work together in a formation and wear heavy body armor for protection.
+    These pincushion formations were a powerful deterrent to cavalry and infantry charges alike, and were used widely throughout history.  Among the most famous were the Macedonian phalanx formations, armed with the 4 to 6 m Sarissa.
+    Pikes remained in frequent use all over the world until the advent of mass produced gunpowder weapons.</History>
+    <Tooltip>Optimized for group fighting at the expense of individual defense.  Devastating vs cavalry. Vulnerable if isolated and picked apart by archers, skirmishers, or swordsmen.</Tooltip>
+    <Formations datatype="tokens">
+      special/formations/syntagma
+    </Formations>
+  </Identity>
+  <UnitMotion>
+    <WalkSpeed>5.0</WalkSpeed>
+    <Run>
+      <Speed>10.0</Speed>
+      <Range>100.0</Range>
+      <RangeMin>0.0</RangeMin>
+      <RegenTime>0.1</RegenTime>
+      <DecayTime>0.2</DecayTime>
+    </Run>
+  </UnitMotion>
+</Entity>

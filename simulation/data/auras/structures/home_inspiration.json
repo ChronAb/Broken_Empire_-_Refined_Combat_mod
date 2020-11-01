@@ -1,0 +1,14 @@
+{
+	"type": "range",
+	"radius": 50,
+	"affectedPlayers": ["Player", "Ally"],
+	"affects": ["Human"],
+	"modifications": [
+		{ "value": "Builder/Rate", "multiply": 1.50},
+		{ "value": "ResourceGatherer/BaseSpeed", "multiply": 1.50}
+	],
+	"auraName": "Initiative",
+	"auraDescription": "50% increase to resource gathering and construction speeds of all nearby workers.",
+	"overlayIcon": "art/textures/ui/session/auras/buildgather_bonus.png",
+	"requiredTechnology": "unlock_civil_autonomy"
+}

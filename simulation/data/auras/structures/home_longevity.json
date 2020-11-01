@@ -1,0 +1,24 @@
+{
+	"type": "range",
+	"radius": 50,
+	"affectedPlayers": ["Player"],
+	"affects": ["Human", "Defensive"],
+	"modifications": [
+        { "value": "Health/RegenRate", "add": 0.1, "affects": "Infantry" },
+        { "value": "Health/RegenRate", "add": 0.3, "affects": "Cavalry" },
+        { "value": "Health/RegenRate", "add": 0.05, "affects": "Support" },
+        { "value": "ResourceGatherer/Rates/food.meat", "multiply": 4 },
+        { "value": "ResourceGatherer/Rates/food.fruit", "multiply": 1 },
+		{"value": "Attack/Ranged/RepeatTime",   "multiply": 0.8,  "affects": "Ranged"  },
+		{"value": "Attack/Melee/RepeatTime",    "multiply": 0.8,  "affects": "Melee"   },
+		{"value": "Attack/Ranged/RepeatTime",   "multiply": 0.8,  "affects": "Defensive"  }
+	],
+	"auraName": "Security",
+	"auraDescription": "Nearby units very slowly regain HP (or lose hp more slowly). Defenders attack 25% faster. Meat gatherers work more efficiently.",
+	"overlayIcon": "art/textures/ui/session/auras/attack_bonus.png",
+	"rangeOverlay" : {
+		"lineTexture": "outline_border.png",
+		"lineTextureMask": "outline_border_mask.png",
+		"lineThickness": 0.075
+	}
+}

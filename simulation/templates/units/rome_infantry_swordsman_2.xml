@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="units/rome_infantry_swordsman_1">
+  <Armour>
+    <Hack op="add">2</Hack>
+    <Pierce op="add">1</Pierce>
+  </Armour>
+  <Cost>
+    <Resources>
+      <metal op="add">10</metal>
+    </Resources>
+  </Cost>
+  <Identity>
+    <Rank>Advanced</Rank>
+    <SpecificName>Veteran Legionnaire</SpecificName>
+  </Identity>
+  <Promotion>
+    <Entity>units/rome_infantry_swordsman_3</Entity>
+  </Promotion>
+  <VisualActor>
+    <Actor>units/BE_Romani/infantry_swordsman_2.xml</Actor>
+  </VisualActor>
+</Entity>
