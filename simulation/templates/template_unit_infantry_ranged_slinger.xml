@@ -12,7 +12,7 @@
       <PrepareTime>1500</PrepareTime>
       <RepeatTime>5000</RepeatTime>
       <RestTime>2000</RestTime>
-      <AmmoCap>20</AmmoCap>
+      <AmmoCap>15</AmmoCap>
       <AmmoResetTime>6000</AmmoResetTime>
       <Spread>12.0</Spread>
       <Delay>0</Delay>

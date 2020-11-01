@@ -18,8 +18,8 @@
       <PrepareTime>1500</PrepareTime>
       <RepeatTime>3000</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>6</AmmoCap>
-      <AmmoResetTime>15000</AmmoResetTime>
+      <AmmoCap>8</AmmoCap>
+      <AmmoResetTime>20000</AmmoResetTime>
       <Spread>5.0</Spread>
       <Delay>0</Delay>
       <PreferredClasses datatype="tokens">Melee Human</PreferredClasses>
