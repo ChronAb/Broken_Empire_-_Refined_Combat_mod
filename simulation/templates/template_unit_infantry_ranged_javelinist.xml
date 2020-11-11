@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_infantry_ranged">
+  <Armour>
+    <Hack>10</Hack>
+    <Pierce>0</Pierce>
+    <Crush>0</Crush>
+  </Armour>
   <Attack>
     <Capture>
       <Value>5</Value>
@@ -8,17 +13,17 @@
       <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
     </Capture>
 	<Ranged>
-      <Hack>25.0</Hack>
-      <Pierce>20.0</Pierce>
+      <Hack>15.0</Hack>
+      <Pierce>40.0</Pierce>
       <Crush>0.0</Crush>
       <MaxRange>40.0</MaxRange>
-      <MinRange>0.0</MinRange>
+      <MinRange>15.0</MinRange>
       <ProjectileSpeed>35</ProjectileSpeed>
       <Gravity>35.0</Gravity>
       <PrepareTime>1500</PrepareTime>
       <RepeatTime>3000</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>8</AmmoCap>
+      <AmmoCap>6</AmmoCap>
       <AmmoResetTime>20000</AmmoResetTime>
       <Spread>5.0</Spread>
       <Delay>0</Delay>
@@ -34,6 +39,6 @@
 	<Tooltip>Javelin skirmishers specialize in skewering enemy heavy infantry.  They are also good at capturing buildings.  Small shields help them take a few hits in hand-to-hand combat but are of little use against arrows or cavalry.</Tooltip>
   </Identity>
   <Vision>
-    <Range>40</Range>
+    <Range>50</Range>
   </Vision>
 </Entity>

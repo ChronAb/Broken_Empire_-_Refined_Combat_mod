@@ -3,18 +3,18 @@
   <Attack>
     <Ranged>
       <Hack>0</Hack>
-      <Pierce>45.0</Pierce>
+      <Pierce>55.0</Pierce>
       <Crush>0</Crush>
-      <MaxRange>80.0</MaxRange>
-      <MinRange>12.0</MinRange>
+      <MaxRange>100.0</MaxRange>
+      <MinRange>25.0</MinRange>
       <ProjectileSpeed>50.0</ProjectileSpeed>
       <Gravity>20.0</Gravity>
-      <PrepareTime>1200</PrepareTime>
+      <PrepareTime>800</PrepareTime>
       <RepeatTime>8000</RepeatTime>
-      <RestTime>5000</RestTime>
-      <AmmoCap>30</AmmoCap>
-      <AmmoResetTime>30000</AmmoResetTime>
-      <Spread>5.0</Spread>
+      <RestTime>6000</RestTime>
+      <AmmoCap>10</AmmoCap>
+      <AmmoResetTime>40000</AmmoResetTime>
+      <Spread>4.0</Spread>
       <Delay>0</Delay>
       <Bonuses>
         <BonusHunt>
@@ -35,6 +35,6 @@
 	<Tooltip>Archers are useful to zone away skirmishers or light cavalry and to grind down heavy infantry, particularly pikemen.  They are not much use against fortified buildings, and must be protected from heavy cavalry.</Tooltip>
   </Identity>
   <Vision>
-    <Range>40</Range>
+    <Range>60</Range>
   </Vision>
 </Entity>

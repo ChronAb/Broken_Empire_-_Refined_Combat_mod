@@ -43,7 +43,7 @@
     <Height>4</Height>
   </Footprint>
   <Health>
-    <Max>80</Max>
+    <Max>100</Max>
 	<RegenRate>0.02</RegenRate>
     <IdleRegenRate>0.1</IdleRegenRate>
   </Health>

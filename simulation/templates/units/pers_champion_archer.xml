@@ -8,8 +8,8 @@
     <Ranged>
       <MinRange>9.0</MinRange>
       <PrepareTime>800</PrepareTime>
-      <RepeatTime>4000</RepeatTime>
-      <RestTime>2000</RestTime>
+      <RepeatTime>7000</RepeatTime>
+      <RestTime>5000</RestTime>
       <AmmoCap>60</AmmoCap>
       <Spread>2.0</Spread>
     </Ranged>

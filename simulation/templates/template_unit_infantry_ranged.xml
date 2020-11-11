@@ -38,7 +38,7 @@
     <FormationController>false</FormationController>
     <WalkSpeed>8.0</WalkSpeed>
     <Run>
-      <Speed>14.0</Speed>
+      <Speed>15.0</Speed>
       <Range>50.0</Range>
       <RangeMin>0.0</RangeMin>
       <RegenTime>0.1</RegenTime>

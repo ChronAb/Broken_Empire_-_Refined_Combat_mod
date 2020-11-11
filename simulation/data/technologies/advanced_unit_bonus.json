@@ -3,10 +3,8 @@
 	"icon": "upgrade_advanced.png",
 	"tooltip": "Units promoted to the advanced class gain a lot of quality: +50% health, 25% faster attack speed, 2 extra hack armor for melee units, 5m extra range for ranged units, faster movement speeds and extra heal speed and range for healers.",
 	"modifications": [
-		{"value": "Health/Max",                 "multiply": 2.0                        },
 		{"value": "Promotion/RequiredXp",       "multiply": 2.0                       },
         {"value": "Loot/xp",                    "multiply": 2.0                       },
-		{"value": "Attack/Ranged/RepeatTime",   "multiply": 0.8                        },
 		{"value": "Attack/Melee/RepeatTime",    "multiply": 0.8                        },
 		
 		{"value": "Armour/Hack",                "add":      2,    "affects": "Melee"   },
@@ -15,7 +13,12 @@
 		{"value": "Vision/Range",               "add":      10,    "affects": "Ranged"  },
 		
 		{"value": "Vision/Range",               "add":      3,    "affects": "Healer"  },
-		{"value": "Heal/HP",                    "multiply": 2,    "affects": "Healer"  }
+		{"value": "Heal/HP",                    "multiply": 2,    "affects": "Healer"  },
+        
+		{"value": "Attack/Ranged/RepeatTime",   "add": -2000,     "affects": "Archer"    },
+		{"value": "Attack/Ranged/RestTime",     "add": -2000,    "affects": "Archer"    },
+        
+		{"value": "Attack/Ranged/RepeatTime",   "multiply": 0.8,  "affects": "Javelin"  }
 	],
 	"affects": ["Advanced Unit"]
 }

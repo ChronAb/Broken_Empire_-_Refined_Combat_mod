@@ -3,18 +3,18 @@
   <Attack>
     <Ranged>
       <Hack>0</Hack>
-      <Pierce>30</Pierce>
+      <Pierce>45</Pierce>
       <Crush>0</Crush>
-      <MaxRange>120.0</MaxRange>
-      <MinRange>30.0</MinRange>
+      <MaxRange>150.0</MaxRange>
+      <MinRange>35.0</MinRange>
       <ProjectileSpeed>60</ProjectileSpeed>
       <Gravity>20.0</Gravity>
-      <PrepareTime>1500</PrepareTime>
+      <PrepareTime>1000</PrepareTime>
       <RepeatTime>5000</RepeatTime>
-      <RestTime>2000</RestTime>
+      <RestTime>3000</RestTime>
       <AmmoCap>15</AmmoCap>
       <AmmoResetTime>6000</AmmoResetTime>
-      <Spread>12.0</Spread>
+      <Spread>6.0</Spread>
       <Delay>0</Delay>
       <PreferredClasses datatype="tokens">Ranged Human</PreferredClasses>
       <RestrictedClasses datatype="tokens">Skittish</RestrictedClasses>
@@ -42,6 +42,6 @@
     <PassabilityClass>default</PassabilityClass>
   </UnitMotion>
   <Vision>
-    <Range>60</Range>
+    <Range>80</Range>
   </Vision>
 </Entity>
