@@ -4,12 +4,18 @@
     <Hack>0</Hack>
     <Pierce>5</Pierce>
     <Crush>0</Crush>
+    <FlankPenalty>
+        <DefenseAngle>0.79</DefenseAngle>
+        <Hack>0</Hack>
+        <Pierce>-5</Pierce>
+        <Crush>0</Crush>
+    </FlankPenalty>
   </Armour>
   <Attack>
     <Capture disable=""/>
     <Melee>
       <Hack>10.0</Hack>
-      <Pierce>20.0</Pierce>
+      <Pierce>30.0</Pierce>
 	  <MaxRange>12.0</MaxRange>
       <RepeatTime>3000</RepeatTime>
       <PreferredClasses datatype="tokens">Cavalry Melee Human</PreferredClasses>

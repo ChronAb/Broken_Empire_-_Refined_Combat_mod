@@ -2,19 +2,19 @@
 <Entity parent="template_unit_cavalry_ranged">
   <Attack>
     <Ranged>
-      <Hack>30.0</Hack>
-      <Pierce>70.0</Pierce>
-      <Crush>5.0</Crush>
-      <MaxRange>25.0</MaxRange>
-      <MinRange>0.0</MinRange>
+      <Hack>0.0</Hack>
+      <Pierce>55.0</Pierce>
+      <Crush>10.0</Crush>
+      <MaxRange>40.0</MaxRange>
+      <MinRange>15.0</MinRange>
       <ProjectileSpeed>35.0</ProjectileSpeed>
       <Gravity>35.0</Gravity>
       <PrepareTime>1500</PrepareTime>
       <RepeatTime>3000</RepeatTime>
       <RestTime>0</RestTime>
       <AmmoCap>4</AmmoCap>
-      <AmmoResetTime>30000</AmmoResetTime>
-      <Spread>3.0</Spread>
+      <AmmoResetTime>10000</AmmoResetTime>
+      <Spread>4.0</Spread>
       <Delay>0</Delay>
     </Ranged>
   </Attack>
@@ -28,7 +28,7 @@
   <Identity>
     <VisibleClasses datatype="tokens">Javelin</VisibleClasses>
     <GenericName>Cavalry Skirmisher</GenericName>
-    <History>The earliest domesticated horses were small and skittish.  They would not have been viewed as suitable mounts for combat.  The most promising early application of these creature was as propulsion for chariots.
+    <History>The earliest domesticated horses were small and skittish.  They would not have been viewed as suitable mounts for combat.  The most promising early application of these creatures was as propulsion for chariots.
     However, some of those who could not afford such extravagance eventually learned to ride the beasts directly, and inevitably used them for conveyance around battlefields.  From there the idea that a skirmisher might try throwing his javelin without getting off the horse was a natural evolution.
     Such light cavalry continued to be used throughout antiquity as raiders and skirmishers, but they never had the tide turning impact of heavy cavalry in pitched battle.</History>
 	<Tooltip>Javelin throwing horsemen are less expensive than other cavalry, and make excellent hunters and raiders.  They are less reliable for direct combat, as they are easily repelled by enemy ranged infantry.  If committed at all in pitched battle, they are best used against high value targets like elephants and heroes, or as a mop-up force.</Tooltip>

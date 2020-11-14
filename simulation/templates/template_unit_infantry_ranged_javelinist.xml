@@ -4,6 +4,12 @@
     <Hack>10</Hack>
     <Pierce>0</Pierce>
     <Crush>0</Crush>
+    <FlankPenalty>
+        <DefenseAngle>1.57</DefenseAngle>
+        <Hack>-10</Hack>
+        <Pierce>0</Pierce>
+        <Crush>0</Crush>
+    </FlankPenalty>
   </Armour>
   <Attack>
     <Capture>
@@ -13,8 +19,8 @@
       <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
     </Capture>
 	<Ranged>
-      <Hack>15.0</Hack>
-      <Pierce>40.0</Pierce>
+      <Hack>0.0</Hack>
+      <Pierce>55.0</Pierce>
       <Crush>0.0</Crush>
       <MaxRange>40.0</MaxRange>
       <MinRange>15.0</MinRange>
@@ -23,7 +29,7 @@
       <PrepareTime>1500</PrepareTime>
       <RepeatTime>3000</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>6</AmmoCap>
+      <AmmoCap>4</AmmoCap>
       <AmmoResetTime>20000</AmmoResetTime>
       <Spread>5.0</Spread>
       <Delay>0</Delay>

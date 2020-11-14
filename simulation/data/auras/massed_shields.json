@@ -14,7 +14,7 @@
 	"overlayIcon": "art/textures/ui/session/auras/armor_bonus.png",
 	"stackable": true,
     "minStack": 2,
-    "maxStack": 8,
+    "maxStack": 7,
 	"rangeOverlay" : {
 		"lineTexture": "outline_border.png",
 		"lineTextureMask": "outline_border_mask.png",

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="units/rome_infantry_swordsman_1">
-  <!--Armour>
+  <Armour>
     <Hack op="add">2</Hack>
     <Pierce op="add">1</Pierce>
-  </Armour-->
+  </Armour>
   <Cost>
     <Resources>
       <metal op="add">10</metal>
@@ -11,7 +11,7 @@
   </Cost>
   <Identity>
     <Rank>Advanced</Rank>
-    <SpecificName>Veteran Legionnaire</SpecificName>
+    <SpecificName>Veteran Hastatus</SpecificName>
   </Identity>
   <Promotion>
     <Entity>units/rome_infantry_swordsman_3</Entity>

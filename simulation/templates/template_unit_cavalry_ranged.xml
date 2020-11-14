@@ -22,11 +22,6 @@
       <Delay>0</Delay>
     </Ranged>
   </Attack>
-  <Health>
-    <Max op="mul">0.5</Max>
-	<RegenRate op="mul">0.5</RegenRate>
-    <IdleRegenRate op="mul">0.5</IdleRegenRate>
-  </Health>
   <Identity>
     <GenericName>Ranged Cavalry</GenericName>
     <VisibleClasses datatype="tokens">Ranged</VisibleClasses>
@@ -40,6 +35,6 @@
     </SoundGroups>
   </Sound>
   <Vision>
-    <Range>30</Range>
+    <Range>80</Range>
   </Vision>
 </Entity>

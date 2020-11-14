@@ -15,18 +15,20 @@
       structures/{civ}_storehouse
       structures/{civ}_farmstead
       structures/{civ}_field
+      structures/{civ}_corral
+      structures/{civ}_outpost
+      other/wallset_palisade
+      structures/{civ}_sentry_tower
       structures/{civ}_dock
       structures/{civ}_barracks
-      structures/{civ}_range
-      structures/{civ}_stable
-      other/field_camp
-      other/wallset_palisade
-      other/wallset_fortified
-      structures/{civ}_wallset_stone
-      structures/{civ}_outpost
-      structures/{civ}_sentry_tower
+      structures/{civ}_blacksmith
+      structures/{civ}_temple
+      structures/{civ}_market
       structures/{civ}_defense_tower
+      structures/{civ}_wallset_stone
+      structures/{civ}_civil_centre
       structures/{civ}_fortress
+      structures/{civ}_wonder
     </Entities>
   </Builder>
   <Cost>
@@ -62,7 +64,7 @@
     <metal>20</metal>
   </Loot>
   <Promotion>
-    <RequiredXp>200</RequiredXp>
+    <RequiredXp>2000</RequiredXp>
   </Promotion>
   <ResourceGatherer>
     <MaxDistance>2.0</MaxDistance>

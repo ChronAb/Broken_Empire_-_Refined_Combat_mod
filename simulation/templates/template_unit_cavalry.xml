@@ -36,9 +36,9 @@
     <Height>7.5</Height>
   </Footprint>
   <Health>
-    <Max>240</Max>
-	<RegenRate>0.06</RegenRate>
-    <IdleRegenRate>0.3</IdleRegenRate>
+    <Max>150</Max>
+	<RegenRate>0.03</RegenRate>
+    <IdleRegenRate>0.15</IdleRegenRate>
   </Health>
   <Identity>
     <GenericName>Cavalry</GenericName>
@@ -62,7 +62,7 @@
     <Anchor>pitch</Anchor>
   </Position>
   <Promotion>
-    <RequiredXp>600</RequiredXp>
+    <RequiredXp>6000</RequiredXp>
   </Promotion>
   <ResourceGatherer>
     <MaxDistance>2.0</MaxDistance>

@@ -29,7 +29,7 @@
 	<Classes datatype="tokens">Arrows</Classes>
     <VisibleClasses datatype="tokens">Archer</VisibleClasses>
     <GenericName>Archer</GenericName>
-    <History>Ancient archers tended to be quick and lightly armored.  They usually only participated in the first stage of open battle by warding off opposing skirmishers and raining arrows down on the enemy infantry.  Usually they would stop shooting once the melee fighting began, meaning their job was largely over when the 'true battle' started.
+    <History>Ancient archers tended to be quick and lightly armored.  They usually only participated in the first stage of open battle by warding off opposing skirmishers or light cavalry and raining arrows on the enemy infantry.  Usually they would stop shooting once the melee fighting began, meaning their job was largely over when the 'true battle' started.
     They served a bigger role in defensive actions, where they could pelt the enemy from behind multiple layers of fortification.
     It took years of training to become proficient with a war bow, but being hit by an arrow was still more likely an act of random chance than being specifically targeted by an archer.</History>
 	<Tooltip>Archers are useful to zone away skirmishers or light cavalry and to grind down heavy infantry, particularly pikemen.  They are not much use against fortified buildings, and must be protected from heavy cavalry.</Tooltip>

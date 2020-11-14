@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_infantry_melee">
   <Armour>
-    <Hack>5</Hack>
+    <Hack>12</Hack>
     <Pierce>9</Pierce>
     <Crush>0</Crush>
+    <FlankPenalty>
+        <DefenseAngle>1.05</DefenseAngle>
+        <Hack>-12</Hack>
+        <Pierce>-9</Pierce>
+        <Crush>0</Crush>
+    </FlankPenalty>
   </Armour>
   <Attack>
     <Capture>
@@ -13,7 +19,7 @@
       <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
     </Capture>
     <Melee>
-      <Hack>30</Hack>
+      <Hack>45</Hack>
       <Pierce>0</Pierce>
       <Crush>0.0</Crush>
       <MaxRange>6</MaxRange>
