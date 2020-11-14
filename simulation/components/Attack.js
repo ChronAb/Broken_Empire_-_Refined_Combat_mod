@@ -688,10 +688,23 @@ Attack.prototype.PerformAttack = function(type, target)
 	else
 	{
 		// Melee attack - hurt the target immediately
+        
+		let cmpPosition = Engine.QueryInterface(this.entity, IID_Position);
+		if (!cmpPosition || !cmpPosition.IsInWorld())
+			return;
+        let selfPosition = cmpPosition.GetPosition();
+        		let cmpTargetPosition = Engine.QueryInterface(target, IID_Position);
+		if (!cmpTargetPosition || !cmpTargetPosition.IsInWorld())
+			return;
+		let targetPosition = cmpTargetPosition.GetPosition();
+		let horizDistance = targetPosition.horizDistanceTo(selfPosition)
+        let attackDirection = Vector3D.sub(targetPosition, selfPosition).div(horizDistance)
+        
 		cmpDamage.CauseDamage({
 			"strengths": this.GetAttackStrengths(type),
 			"target": target,
 			"attacker": this.entity,
+            "direction": attackDirection,
 			"multiplier": GetDamageBonus(target, this.GetBonusTemplate(type)),
 			"type": type,
 			"attackerOwner": attackerOwner
