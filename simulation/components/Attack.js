@@ -73,6 +73,8 @@ Attack.prototype.Schema =
 			"<PrepareTime>1500</PrepareTime>" +
 			"<RepeatTime>3000</RepeatTime>" +
             "<RestTime>0</RestTime>" +
+            "<AmmoCap>-1</AmmoCap>" +
+            "<AmmoResetTime>20000</AmmoResetTime>" +
 			"<ProjectileSpeed>50.0</ProjectileSpeed>" +
 			"<Spread>2.5</Spread>" +
 			"<Delay>1000</Delay>" +
@@ -144,6 +146,9 @@ Attack.prototype.Schema =
 				"</element>" +
 				"<element name='RepeatTime' a:help='Time between attacks (in milliseconds). The attack animation will be stretched to match this time'>" +
 					"<data type='positiveInteger'/>" +
+				"</element>" +
+				"<element name='RestTime' a:help='Extra time between attacks (in milliseconds). The unit will play the idle animation during this time'>" +
+					"<data type='nonNegativeInteger'/>" +
 				"</element>" +
 				"<element name='AmmoCap' a:help='Maximum number of consecutive ranged attacks the unit can perform.'>" + 
 					"<data type='integer'/>" +
@@ -304,6 +309,9 @@ Attack.prototype.CanAttack = function(target, wantedTypes)
 
 		if (heightDiff > this.GetRange(type).max)
 			continue;
+        
+        //if (type == "Ranged" && ammo == 0)
+			//continue;
 
 		let restrictedClasses = this.GetRestrictedClasses(type);
 		if (!restrictedClasses.length)
@@ -358,7 +366,7 @@ Attack.prototype.GetFullAttackRange = function()
 	return ret;
 };
 
-Attack.prototype.GetBestAttackAgainst = function(target, allowCapture)
+Attack.prototype.GetBestAttackAgainst = function(target, allowCapture, rangedAmmo)
 {
 	let cmpFormation = Engine.QueryInterface(target, IID_Formation);
 	if (cmpFormation)
@@ -395,23 +403,32 @@ Attack.prototype.GetBestAttackAgainst = function(target, allowCapture)
 	}
     
     // check if this unit has both Melee and Ranged attacks
-    if ( this.CanAttack(target, ["Ranged"])  && this.CanAttack(target, ["Melee"]) ){
+    if ( this.CanAttack(target, ["Ranged"]) && this.CanAttack(target, ["Melee"]) ){
         let cmpUnitAI = Engine.QueryInterface(this.entity, IID_UnitAI);
         let cmpUnitMotion = Engine.QueryInterface(this.entity, IID_UnitMotion);   
         
+        /* Default multi-attack behavior
+           Ranged is preferred, Use melee attack only if:
+              distance to target < min range of ranged attack 
+           || distance to target < 40 && you are out of ammo
+           || distance to target < 40 && < 30% of max range of ranged attack 
+        */
         let shootRange = Math.max( 
-            Math.min( 30, this.GetRange("Ranged").max/2 ), 
-            this.GetRange("Ranged").min 
+            this.GetRange("Ranged").min,
+            Math.min( 35, 0.3 * this.GetRange("Ranged").max + 35 * ((rangedAmmo == 0)? 1 : 0) )
             );
         let chargeRange = shootRange;
-        // if this unit's stance is Stand Ground, and distance to target is greater than Melee range, use Ranged
-        // and if distance to target is less than Ranged range minimum range, use Melee
+        
+        /* Unless unit's stance is Stand Ground
+           then if distance to target is greater than Melee range, try to use Ranged
+           unless distance to target is less than Ranged range minimum range
+        */
         if ( cmpUnitAI.GetStance().respondStandGround ){
             shootRange = this.GetRange("Melee").max;
             chargeRange = this.GetRange("Ranged").min;
         }
-        // otherwise switch to melee at greater of 1/2 ranged attack max range (<30) and ranged attack min range 
         
+        // Pick which attack to use
         if ( cmpUnitMotion.IsInTargetRange(target, shootRange, 200) )
             return "Ranged";
         
@@ -453,7 +470,15 @@ Attack.prototype.GetTimers = function(type)
 	return { "prepare": prepare, "repeat": repeat, "rest": rest };
 };
 
-	return { "prepare": prepare, "repeat": repeat };
+Attack.prototype.GetAmmo = function(type)
+{
+	let cap = +(this.template[type].AmmoCap || -1);
+	cap = ApplyValueModificationsToEntity("Attack/" + type + "/AmmoCap", cap, this.entity);
+    
+	let recap = +(this.template[type].AmmoResetTime || 0);
+	recap = ApplyValueModificationsToEntity("Attack/" + type + "/AmmoResetTime", recap, this.entity);
+
+	return { "cap": cap, "recap": recap };
 };
 
 Attack.prototype.GetAttackStrengths = function(type)

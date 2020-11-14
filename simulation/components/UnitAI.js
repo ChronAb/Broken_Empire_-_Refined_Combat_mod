@@ -425,7 +425,7 @@ UnitAI.prototype.UnitFsmSpec = {
 		}
 
 		// Work out how to attack the given target
-		var type = this.GetBestAttackAgainst(this.order.data.target, this.order.data.allowCapture);
+		var type = this.GetBestAttackAgainst(this.order.data.target, this.order.data.allowCapture, this.ammoCount);
 		if (!type)
 		{
 			// Oops, we can't attack at all
@@ -563,7 +563,7 @@ UnitAI.prototype.UnitFsmSpec = {
 		if (this.MustKillGatherTarget(this.order.data.target))
 		{
 			// Make sure we can attack the target, else we'll get very stuck
-			if (!this.GetBestAttackAgainst(this.order.data.target, false))
+			if (!this.GetBestAttackAgainst(this.order.data.target, false, this.ammoCount))
 			{
 				// Oops, we can't attack at all - give up
 				// TODO: should do something so the player knows why this failed
@@ -1572,6 +1572,11 @@ UnitAI.prototype.UnitFsmSpec = {
 			"enter": function() {
 				this.SelectAnimation("move");
 			},
+            
+            "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
+                this.StopTimer(); 
+                return;
+            },
 
 			"MoveCompleted": function() {
 				this.FinishOrder();
@@ -1757,6 +1762,11 @@ UnitAI.prototype.UnitFsmSpec = {
 				var speed = this.GetRunSpeed();
 				this.SetMoveSpeed(speed);
 			},
+            
+            "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
+                this.StopTimer(); 
+                return;
+            },
 
 			"leave": function() {
 				// Reset normal speed
@@ -1769,6 +1779,7 @@ UnitAI.prototype.UnitFsmSpec = {
 			},
 
 			// TODO: what if we run into more enemies while fleeing?
+            // ...that's called being encircled. You're F***ed!
 		},
 
 		"COMBAT": { // INDIVIDUAL.COMBAT
@@ -1778,14 +1789,22 @@ UnitAI.prototype.UnitFsmSpec = {
 			},
 
 			"Attacked": function(msg) {
-				// If we're already in combat mode, ignore anyone else who's attacking us
-				// unless it's a melee attack since they may be blocking our way to the target
+                // (What to do if attacked while moving into combat)
                 
-                // try disabling to reduce unit ADHD ****
-                //if (msg.data.type == "Melee" && (this.GetStance().targetAttackersAlways || !this.order.data.force))
-					//this.RespondToTargetedEntities([msg.data.attacker]);
+                // Some unit stances ignore being attacked, unless it is melee
+                if ( (this.GetStance().respondStandGround || this.order.data.force) && msg.data.type != "Melee" ) 
+                    return;
                 
-                // TODO: if attacker is closer than current target -> switch to fighting that one
+                // If the attacker is closer than the target we are currently fighting, then switch to fighting the attacker
+                let cmpPosition = Engine.QueryInterface(this.entity, IID_Position)
+                let pos = cmpPosition.GetPosition2D();
+                let cmpObstructionManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ObstructionManager);
+                let distOld = cmpObstructionManager.DistanceToPoint(this.order.data.target, pos.x, pos.y);
+                let distNew = cmpObstructionManager.DistanceToPoint(msg.data.attacker, pos.x, pos.y);
+                if ( distNew < distOld ) {
+                    this.RespondToTargetedEntities([msg.data.attacker]);
+                    return;
+                }
 			},
 
 			"APPROACHING": {
@@ -1859,14 +1878,16 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					var target = this.order.data.target;
 					var cmpFormation = Engine.QueryInterface(target, IID_Formation);
-					// if the target is a formation, save the attacking formation, and pick a member
+					
+                    // if the target is a formation, save the target formation, and pick a member to attack
 					if (cmpFormation)
 					{
 						this.order.data.formationTarget = target;
 						target = cmpFormation.GetClosestMember(this.entity);
 						this.order.data.target = target;
 					}
-					// Check the target is still alive and attackable
+                    
+					// Check the target is still alive and in range 
 					if (this.CanAttack(target) && !this.CheckTargetAttackRange(target, this.order.data.attackType))
 					{
 						// Can't reach it - try to chase after it
@@ -1885,7 +1906,17 @@ UnitAI.prototype.UnitFsmSpec = {
 						}
 					}
 
+                    //Pick the right attack type for the situation
+                    //***********
+                    var type = this.GetBestAttackAgainst(this.order.data.target, this.order.data.allowCapture, this.ammoCount);
+                    if (!type)
+                    {
+                        this.FinishOrder();
+                        return;
+                    }
+                    this.order.data.attackType = type;
 					this.oldAttackType = this.order.data.attackType;
+                    
 					// add prefix + no capital first letter for attackType
 					var animationName = "attack_" + this.order.data.attackType.toLowerCase();
 					if (this.IsFormationMember())
@@ -1896,27 +1927,62 @@ UnitAI.prototype.UnitFsmSpec = {
 					}
 					this.SetAnimationVariant("combat");
                     
+                    //Timing
+                    //***********
 					var cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
 					this.attackTimers = cmpAttack.GetTimers(this.order.data.attackType);
+                    this.ammoCounting = cmpAttack.GetAmmo(this.order.data.attackType);
 
 					// If the repeat time since the last attack hasn't elapsed,
 					// delay this attack to avoid attacking too fast.
 					var prepare = this.attackTimers.prepare;
-					if (this.lastAttacked)
-					{
+                    
+					if (this.lastAttacked){
 						var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-						var repeatLeft = this.lastAttacked + this.attackTimers.repeat - cmpTimer.GetTime();
+						var repeatLeft = this.lastAttacked + this.attackTimers.repeat + 0.5 * this.attackTimers.rest  - cmpTimer.GetTime();
 						prepare = Math.max(prepare, repeatLeft);
-                        if (repeatLeft < this.attackTimers.repeat) 
-                            this.attackPhase = 0;
+                        
+                        if ( this.order.data.attackType == "Ranged" ) {
+                            
+                            if ( this.ammoCount == 0 ) { // out of ammo?
+                                if ( repeatLeft < -this.ammoCounting.recap )
+                                    this.ammoCount = this.ammoCounting.cap;
+                                else {
+                                    this.attackPhase = 3; //re-arm
+                                    this.SelectAnimation("attack_capture");
+                                    this.FaceTowardsTarget(this.order.data.target);
+                                    this.StartTimer(1000, 1000);
+                                    return;
+                                }
+                            }
+                            
+                            if ( repeatLeft < this.attackTimers.prepare || this.attackTimers.rest <= 0 ) // multi phase attack?
+                                this.attackPhase = 0;
+                            else {
+                                this.attackPhase = 2;
+                                this.SelectAnimation("idle");
+                                this.StartTimer(prepare); 
+                                return;
+                            }
+                            
+                        }
+                        else { // non-ranged can also reload
+                            if ( this.ammoCount == 0 && repeatLeft < -this.ammoCounting.recap ) {
+                                this.ammoCount = this.ammoCounting.cap;
+                            }
+                        }
+                        
 					}
+                    else this.ammoCount = this.ammoCounting.cap;
+                    
+                    //Sync up the animation
+                    //***********
 					this.SelectAnimation(animationName);
 					this.SetAnimationSync(prepare, this.attackTimers.repeat-this.attackTimers.rest);
 					this.StartTimer(prepare, this.attackTimers.repeat-this.attackTimers.rest);
-					// TODO: we should probably only bother syncing projectile attacks, not melee
 
-					// If using a non-default prepare time, re-sync the animation when the timer runs.
-					this.resyncAnimation = (prepare != this.attackTimers.prepare) ? true : false;
+					// If using a non-default prepare time on a ranged attack, re-sync the animation when the timer runs.
+					this.resyncAnimation = (prepare != this.attackTimers.prepare && this.order.data.attackType == "Ranged" ) ? true : false;
 
 					this.FaceTowardsTarget(this.order.data.target);
 
@@ -1934,15 +2000,27 @@ UnitAI.prototype.UnitFsmSpec = {
 				},
 
 				"Timer": function(msg) {
-                    /*
-                    Attack Cycle Sequencing:
-                        1. determine which phase of the attack cycle the unit is in using 
-                    */
                     
                     var target = this.order.data.target;
+                    let cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
+                    var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+                    this.attackTimers = cmpAttack.GetTimers(this.order.data.attackType);
+                    this.ammoCounting = cmpAttack.GetAmmo(this.order.data.attackType);
                     
-                    if(this.attackPhase == 1)//reload->rest
-                    {
+                    //Special attack cycles: Rearming cycle
+                    //***********
+                    if ( this.attackPhase == 3 ) {
+                        if ( cmpTimer.GetTime()-this.lastAttacked < this.ammoCounting.recap){
+                            this.FaceTowardsTarget(this.order.data.target);
+                            return;
+                        }
+                        this.ammoCount = this.ammoCounting.cap;
+                        this.attackPhase = 2;
+                    }
+                    
+                    //Special attack cycles: reload->rest
+                    //***********
+                    if ( this.attackPhase == 1 ) {
                         this.attackPhase = 2;
                         this.StopTimer(); 
                         this.SelectAnimation("idle");
@@ -1951,21 +2029,23 @@ UnitAI.prototype.UnitFsmSpec = {
                         return;
                     }
                     
-                    if(this.attackPhase == 2)//rest->attack
-                    {
+                    //Special attack cycles: rest->attack
+                    //***********
+                    if ( this.attackPhase == 2 ) {
                         this.attackPhase = 0;
                         this.StopTimer(); 
-                        // Start the next attack if the target is in range
-                        if(this.CheckTargetAttackRange(target, this.order.data.attackType)){
+                        
+                        // Start the next attack if the target is alive and in range
+                        if ( this.CanAttack(target) && this.CheckTargetAttackRange(target, this.order.data.attackType ) ){
                             var animationName = "attack_" + this.order.data.attackType.toLowerCase();
                             this.SelectAnimation(animationName);
                             this.SetAnimationSync(this.attackTimers.prepare, this.attackTimers.repeat-this.attackTimers.rest);
-                            this.StartTimer(this.attackTimers.prepare);
+                            this.StartTimer(this.attackTimers.prepare, this.attackTimers.repeat-this.attackTimers.rest);
                             return;
                         }
                         
                         // Can't reach it - try to chase after it
-						if (this.ShouldChaseTargetedEntity(target, this.order.data.force))
+						if ( this.ShouldChaseTargetedEntity(target, this.order.data.force) )
 						{
 							if (this.CanPack())
 							{
@@ -1977,80 +2057,106 @@ UnitAI.prototype.UnitFsmSpec = {
 								this.SetNextState("COMBAT.CHASING");
 								return;
 							}
-						}
+						} 
+                        // (otherwise, find a new target)
                     }
                     
-					var cmpFormation = Engine.QueryInterface(target, IID_Formation);
-					// if the target is a formation, save the attacking formation, and pick a member
-					if (cmpFormation)
-					{
-						var thisObject = this;
-						var filter = function(t) {
-							return thisObject.CanAttack(t);
-						};
-						this.order.data.formationTarget = target;
-						target = cmpFormation.GetClosestMember(this.entity, filter);
-						this.order.data.target = target;
-					}
-					// Check the target is still alive and attackable
-					if (this.CanAttack(target))
-					{
-						// If we are hunting, first update the target position of the gather order so we know where will be the killed animal
-						if (this.order.data.hunting && this.orderQueue[1] && this.orderQueue[1].data.lastPos)
-						{
-							var cmpPosition = Engine.QueryInterface(this.order.data.target, IID_Position);
-							if (cmpPosition && cmpPosition.IsInWorld())
-							{
-								// Store the initial position, so that we can find the rest of the herd later
-								if (!this.orderQueue[1].data.initPos)
-									this.orderQueue[1].data.initPos = this.orderQueue[1].data.lastPos;
-								this.orderQueue[1].data.lastPos = cmpPosition.GetPosition();
-								// We still know where the animal is, so we shouldn't give up before going there
-								this.orderQueue[1].data.secondTry = undefined;
-							}
-						}
-                        
-                        // Valid target found so rotate to face it
-						this.FaceTowardsTarget(target);
-
-                        // Lastly, Check that the target is still mostly in range -- Very Important ****(new)
-                        if (this.CheckTargetAttackRange( target, this.order.data.attackType, 10, 15, 0 ))
+                    //Attack Target
+                    //***********
+                    if(this.attackPhase == 0) {
+                    
+                        // Target is a formation 
+                        // ***********
+                        // save the attacking formation, and pick a member
+                        var cmpFormation = Engine.QueryInterface(target, IID_Formation);
+                        if (cmpFormation)
                         {
-                            // Now we are finally we are ready to trigger the attack
-                            var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-                            this.lastAttacked = cmpTimer.GetTime() - msg.lateness;
-                            
-                            // BuildingAI has it's own attack-routine
-                            var cmpBuildingAI = Engine.QueryInterface(this.entity, IID_BuildingAI);
-                            if (!cmpBuildingAI)
+                            var thisObject = this;
+                            var filter = function(t) {
+                                return thisObject.CanAttack(t);
+                            };
+                            this.order.data.formationTarget = target;
+                            target = cmpFormation.GetClosestMember(this.entity, filter);
+                            this.order.data.target = target;
+                        }
+                        
+                        // Check the target is still alive, still attackable, and still mostly in range -- Very Important
+                        // ***********
+                        if (this.CanAttack(target) && this.CheckTargetAttackRange( target, this.order.data.attackType, 10, 15, 0 ) )
+                        {
+                            // If we are hunting, first update the target position of the gather order so we know where will be the killed animal
+                            if (this.order.data.hunting && this.orderQueue[1] && this.orderQueue[1].data.lastPos)
                             {
+                                var cmpPosition = Engine.QueryInterface(this.order.data.target, IID_Position);
+                                if (cmpPosition && cmpPosition.IsInWorld())
+                                {
+                                    // Store the initial position, so that we can find the rest of the herd later
+                                    if (!this.orderQueue[1].data.initPos)
+                                        this.orderQueue[1].data.initPos = this.orderQueue[1].data.lastPos;
+                                    this.orderQueue[1].data.lastPos = cmpPosition.GetPosition();
+                                    // We still know where the animal is, so we shouldn't give up before going there
+                                    this.orderQueue[1].data.secondTry = undefined;
+                                }
+                            }
+                            
+                            // Valid target found so rotate to face it
+                            this.FaceTowardsTarget(target);
 
-                                let cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
+                            // Now we are finally we are ready to trigger the attack
+                            var cmpBuildingAI = Engine.QueryInterface(this.entity, IID_BuildingAI);
+                            if (!cmpBuildingAI) // BuildingAI has it's own attack-routine
+                            {
+                                // ATTACK!!!
+                                // ***********
                                 cmpAttack.PerformAttack(this.order.data.attackType, target); 
-                                if (this.attackTimers.rest>0){
+                                this.lastAttacked = cmpTimer.GetTime() - msg.lateness;
+                                
+                                if (this.ammoCount > 0 && this.order.data.attackType == "Ranged" )
+                                    this.ammoCount--;
+                                
+                                // Check if we should switch to a different attack type next round
+                                // ***********
+                                if ( this.order.data.attackType == "Ranged" && this.CanAttack(target, ["Melee"]) ){
+                                    this.order.data.attackType = this.GetBestAttackAgainst(this.order.data.target, this.order.data.allowCapture, this.ammoCount);
+                                    if (this.order.data.attackType == "Melee" ) 
+                                        this.resyncAnimation = false;
+                                }   
+                                    
+                                // Check if we are out of ammo. If so start re-arming
+                                // ***********
+                                if (this.ammoCount == 0 && this.order.data.attackType == "Ranged")
+                                {
+                                    this.attackPhase = 3; //re-arm
+                                    this.StopTimer(); 
+                                    this.SelectAnimation("attack_capture");
+                                    this.StartTimer(0, 1000);
+                                    return;
+                                }
+                                
+                                // Move to next attack phase if that is something we do
+                                // ***********
+                                if (this.attackTimers.rest > 0){
                                     this.attackPhase = 1; //attack->reload
                                     this.StopTimer(); 
                                     this.StartTimer(this.attackTimers.repeat-this.attackTimers.prepare-this.attackTimers.rest);
+                                    return;
                                 }
-                                // TODO: if (RestTime>0) this.SetNextState("RESTING");
-                                //   this.SetAnimationVariant("combat"); this.SelectAnimation("idle"); this.StartTimer(ReloadTime, RestTime); 
-                                //   this.attackPhase = 1;
+                                
+                                // Resync animation if needed
+                                // ***********
+                                if (this.resyncAnimation)
+                                {
+                                    this.SetAnimationSync(this.attackTimers.repeat, this.attackTimers.repeat);
+                                    this.resyncAnimation = false;
+                                }
+                                return;
                             }
-						}// ****
+                        }
+                    }
 
-						// Check we can still reach the target for the next attack
-						if (this.CheckTargetAttackRange(target, this.order.data.attackType))
-						{
-							if (this.resyncAnimation)
-							{
-								this.SetAnimationSync(this.attackTimers.repeat, this.attackTimers.repeat);
-								this.resyncAnimation = false;
-							}
-							return;
-						}
-					}
-
-					// if we're targetting a formation, find a new member of that formation
+                    // We are not currently attacking. Figure out why and what we should be doing
+                    
+					// if we're targeting a formation, find a new member of that formation
 					var cmpTargetFormation = Engine.QueryInterface(this.order.data.formationTarget || INVALID_ENTITY, IID_Formation);
 					// if there is no target, it means previously searching for the target inside the target formation failed, so don't repeat the search
 					if (target && cmpTargetFormation)
@@ -2061,7 +2167,7 @@ UnitAI.prototype.UnitFsmSpec = {
 					}
 
 					// Can't reach it, no longer owned by enemy, or it doesn't exist any more - give up
-					// Except if in WalkAndFight mode where we look for more ennemies around before moving again
+					// Except if in WalkAndFight mode where we look for more enemies around before moving again
 					if (this.FinishOrder())
 					{
 						if (this.IsWalkingAndFighting())
@@ -2089,9 +2195,39 @@ UnitAI.prototype.UnitFsmSpec = {
 				// until the next Timer event
 
 				"Attacked": function(msg) {
+                    // (What to do if attacked while fighting)
+                    
+                    // Some unit stances ignore being attacked, unless it is melee
+                    if ( (this.GetStance().respondStandGround || this.order.data.force) && msg.data.type != "Melee" ) 
+                        return;
+                    
+                    // Ranged only units who are out of ammo or resting should flee when attacked
+                    var target = this.order.data.target;
+                    if ( this.order.data.attackType == "Ranged" && ( this.attackPhase == 3 || this.attackPhase == 2 ) ){
+                        if ( ! this.CanAttack(msg.data.attacker, ["Melee"]) ){
+                            this.StopTimer(); 
+                            this.PushOrderFront("Flee", { "target": msg.data.attacker, "force": false });
+                            return;
+                        }
+                        
+                        // TODO: and ranged units in a melee fight who have melee should maybe switch to it
+                    }
+                    
+                    // If the attacker is closer than the target we are currently fighting, then switch to fighting the attacker
+                    //this.RespondToTargetedEntities([msg.data.attacker]);
+                    let cmpPosition = Engine.QueryInterface(this.entity, IID_Position)
+                    let pos = cmpPosition.GetPosition2D();
+                    let cmpObstructionManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ObstructionManager);
+                    let distOld = cmpObstructionManager.DistanceToPoint(target, pos.x, pos.y);
+                    let distNew = cmpObstructionManager.DistanceToPoint(msg.data.attacker, pos.x, pos.y);
+                    if ( distNew < distOld ) {
+                        this.RespondToTargetedEntities([msg.data.attacker]);
+                        return;
+                    }
+                    
 					// If we are capturing and are attacked by something that we would not capture, attack that entity instead
 					if (this.order.data.attackType == "Capture" && (this.GetStance().targetAttackersAlways || !this.order.data.force)
-						&& this.order.data.target != msg.data.attacker && this.GetBestAttackAgainst(msg.data.attacker, true) != "Capture")
+						&& this.order.data.target != msg.data.attacker && this.GetBestAttackAgainst(msg.data.attacker, true, this.ammoCount) != "Capture")
 						this.RespondToTargetedEntities([msg.data.attacker]);
 				},
 			},
@@ -2279,6 +2415,11 @@ UnitAI.prototype.UnitFsmSpec = {
 					delete this.gatheringTarget;
 					this.SetDefaultAnimationVariant();
 				},
+                
+                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
+                    this.StopTimer(); 
+                    return;
+                },
 			},
 
 			// Walking to a good place to gather resources near, used by GatherNearPosition
@@ -3001,6 +3142,11 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
+                
+                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
+                    this.StopTimer(); 
+                    return;
+                },
 
 				"MoveCompleted": function() {
 					this.SetNextState("GARRISONED");
@@ -3356,6 +3502,7 @@ UnitAI.prototype.Init = function()
 	this.lastHealed = undefined;
     this.attackPhase = 0;
     
+    this.ammoCount = undefined;
 
 	this.SetStance(this.template.DefaultStance);
 };
@@ -4645,7 +4792,7 @@ UnitAI.prototype.CheckTargetDistanceFromHeldPosition = function(target, iid, typ
 	if (heldPosition === undefined)
 		heldPosition = { "x": pos.x, "z": pos.z };
 
-	return Math.euclidDistance2D(pos.x, pos.z, heldPosition.x, heldPosition.z) < halfvision + range.max;
+	return Math.euclidDistance2D(pos.x, pos.z, heldPosition.x, heldPosition.z) < halfvision + Math.max(range.max, 60);
 };
 
 UnitAI.prototype.CheckTargetIsInVisionRange = function(target)
@@ -4660,12 +4807,12 @@ UnitAI.prototype.CheckTargetIsInVisionRange = function(target)
 	return distance < range;
 };
 
-UnitAI.prototype.GetBestAttackAgainst = function(target, allowCapture)
+UnitAI.prototype.GetBestAttackAgainst = function(target, allowCapture, rangedAmmo)
 {
 	var cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
 	if (!cmpAttack)
 		return undefined;
-	return cmpAttack.GetBestAttackAgainst(target, allowCapture);
+	return cmpAttack.GetBestAttackAgainst(target, allowCapture, rangedAmmo);
 };
 
 /**
@@ -4692,7 +4839,7 @@ UnitAI.prototype.AttackEntityInZone = function(ents)
 {
 	var target = ents.find(target =>
 		this.CanAttack(target)
-		&& this.CheckTargetDistanceFromHeldPosition(target, IID_Attack, this.GetBestAttackAgainst(target, true))
+		&& this.CheckTargetDistanceFromHeldPosition(target, IID_Attack, this.GetBestAttackAgainst(target, true, 1))
 		&& (this.GetStance().respondChaseBeyondVision || this.CheckTargetIsInVisionRange(target))
 	);
 	if (!target)
@@ -5759,7 +5906,7 @@ UnitAI.prototype.WalkToHeldPosition = function()
 
 //// Helper functions ////
 
-UnitAI.prototype.CanAttack = function(target)
+UnitAI.prototype.CanAttack = function(target, wantedTypes)
 {
 	// Formation controllers should always respond to commands
 	// (then the individual units can make up their own minds)
@@ -5767,7 +5914,7 @@ UnitAI.prototype.CanAttack = function(target)
 		return true;
 
 	let cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
-	return cmpAttack && cmpAttack.CanAttack(target);
+	return cmpAttack && cmpAttack.CanAttack(target, wantedTypes);
 };
 
 UnitAI.prototype.CanGarrison = function(target)
