@@ -134,7 +134,15 @@ Damage.prototype.MissileHit = function(data, lateness)
 	if (cmpDamageReceiver && this.TestCollision(data.target, data.position, lateness))
 	{
 		data.multiplier = GetDamageBonus(data.target, data.bonus);
-		this.CauseDamage(data);
+		this.CauseDamage({
+			"strengths": data.strengths,
+			"target": data.target,
+			"attacker": data.attacker,
+            "direction": data.direction,
+			"multiplier": data.multiplier,
+			"type": data.type,
+			"attackerOwner": data.attackerOwner
+		});
 		cmpProjectileManager.RemoveProjectile(data.projectileId);
 		return;
 	}
@@ -155,6 +163,7 @@ Damage.prototype.MissileHit = function(data, lateness)
 			"strengths": data.strengths,
 			"target": ent,
 			"attacker": data.attacker,
+            "direction": data.direction,
 			"multiplier": GetDamageBonus(ent, data.bonus),
 			"type": data.type,
 			"attackerOwner": data.attackerOwner
@@ -224,6 +233,7 @@ Damage.prototype.CauseSplashDamage = function(data)
 			"strengths": data.strengths,
 			"target": ent,
 			"attacker": data.attacker,
+            "direction": data.direction,
 			"multiplier": damageMultiplier,
 			"type": data.type + ".Splash",
 			"attackerOwner": data.attackerOwner
@@ -233,21 +243,27 @@ Damage.prototype.CauseSplashDamage = function(data)
 
 /**
  * Causes damage on a given unit.
- * @param {Object} data - the data passed by the caller.
- * @param {Object} data.strengths - data in the form of { 'hack': number, 'pierce': number, 'crush': number }.
- * @param {number} data.target - the entity id of the target.
- * @param {number} data.attacker - the entity id og the attacker.
- * @param {number} data.multiplier - the damage multiplier.
- * @param {string} data.type - the type of damage.
- * @param {number} data.attackerOwner - the player id of the attacker.
+ * @param {Object}   data - the data passed by the caller.
+ * @param {Object}   data.strengths - data in the form of { 'hack': number, 'pierce': number, 'crush': number }.
+ * @param {number}   data.target - the entity id of the target.
+ * @param {number}   data.attacker - the entity id og the attacker.
+ * @param {Vector3D} data.direction - the unit vector defining the direction.
+ * @param {number}   data.multiplier - the damage multiplier.
+ * @param {string}   data.type - the type of damage.
+ * @param {number}   data.attackerOwner - the player id of the attacker.
  */
 Damage.prototype.CauseDamage = function(data)
 {
 	let cmpDamageReceiver = Engine.QueryInterface(data.target, IID_DamageReceiver);
 	if (!cmpDamageReceiver)
 		return;
+    
+	var targetPosition = Engine.QueryInterface(data.target, IID_Position);
+    var rot = targetPosition.GetRotation();
+    var attackDirection = Math.atan2(data.direction.x, data.direction.y);
+	var damageAngle = (rot.y + 3 * Math.PI - attackDirection) % (2 * Math.PI);
 
-	let targetState = cmpDamageReceiver.TakeDamage(data.strengths, data.multiplier);
+	let targetState = cmpDamageReceiver.TakeDamage(data.strengths, data.multiplier, damageAngle);
 
 	let cmpPromotion = Engine.QueryInterface(data.attacker, IID_Promotion);
 	let cmpLoot = Engine.QueryInterface(data.target, IID_Loot);
