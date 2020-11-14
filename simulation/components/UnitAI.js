@@ -2036,7 +2036,7 @@ UnitAI.prototype.UnitFsmSpec = {
                         this.StopTimer(); 
                         
                         // Start the next attack if the target is alive and in range
-                        if ( this.CanAttack(target) && this.CheckTargetAttackRange(target, this.order.data.attackType ) ){
+                        if ( this.CanAttack( target ) && this.CheckTargetAttackRange( target, this.order.data.attackType ) ){
                             var animationName = "attack_" + this.order.data.attackType.toLowerCase();
                             this.SelectAnimation(animationName);
                             this.SetAnimationSync(this.attackTimers.prepare, this.attackTimers.repeat-this.attackTimers.rest);
@@ -4577,14 +4577,29 @@ UnitAI.prototype.MoveToTargetAttackRange = function(target, type)
 	if (cmpFormation)
 		target = cmpFormation.GetClosestMember(this.entity);
 
+    // Non-ranged attack orders
 	if (type != "Ranged")
 		return this.MoveToTargetRange(target, IID_Attack, type);
 
+    // Ranged attack orders
 	if (!this.CheckTargetVisible(target))
 		return false;
 
 	var cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
 	var range = cmpAttack.GetRange(type);
+    
+    // Hunting exception, because when hunting you want to be closer to your prey
+    // ************
+    let cmpIdentity = Engine.QueryInterface(target, IID_Identity);
+	if (!cmpIdentity)
+		return undefined;
+	let targetClasses = cmpIdentity.GetClassesList();
+	let isTargetClass = className => targetClasses.indexOf(className) != -1;
+    if ( isTargetClass("Animal") ) {
+        range.max = Math.min(30, 0.4*range.max);
+        range.min = Math.min(20, 0.4*range.min);
+    }
+    // ************
 
 	var thisCmpPosition = Engine.QueryInterface(this.entity, IID_Position);
 	if (!thisCmpPosition.IsInWorld())
@@ -4663,6 +4678,7 @@ UnitAI.prototype.CheckTargetRange = function(target, iid, type, offset=0)
  * For melee attacks, this goes straight to the regular range calculation
  * For ranged attacks, the parabolic formula is used to account for bigger ranges
  * when the target is lower, and smaller ranges when the target is higher
+ * Only exception is when hunting: then range is capped at 50 or 1/2 max range
  */
 UnitAI.prototype.CheckTargetAttackRange = function(target, type, meleeOffset=0, rangedOffset=0, rangedFloor=Infinity)
 {
@@ -4678,16 +4694,31 @@ UnitAI.prototype.CheckTargetAttackRange = function(target, type, meleeOffset=0, 
 	var cmpFormation = Engine.QueryInterface(target, IID_Formation);
 	if (cmpFormation)
 		target = cmpFormation.GetClosestMember(this.entity);
-
+    
+    // Non-ranged attack orders
 	if (type != "Ranged")
 		return this.CheckTargetRange(target, IID_Attack, type, meleeOffset);
 
+    // Ranged attack orders
 	var targetCmpPosition = Engine.QueryInterface(target, IID_Position);
 	if (!targetCmpPosition || !targetCmpPosition.IsInWorld())
 		return false;
 
 	var cmpAttack = Engine.QueryInterface(this.entity, IID_Attack);
 	var range = cmpAttack.GetRange(type);
+    
+    // Hunting exception, because when hunting you want to be closer to your prey
+    // ************
+    let cmpIdentity = Engine.QueryInterface(target, IID_Identity);
+	if (!cmpIdentity)
+		return undefined;
+	let targetClasses = cmpIdentity.GetClassesList();
+	let isTargetClass = className => targetClasses.indexOf(className) != -1;
+    if ( isTargetClass("Animal") ) {
+        range.max = Math.min(30, 0.4*range.max);
+        range.min = Math.min(20, 0.4*range.min);
+    }
+    // ************
 
 	var thisCmpPosition = Engine.QueryInterface(this.entity, IID_Position);
 	if (!thisCmpPosition.IsInWorld())
