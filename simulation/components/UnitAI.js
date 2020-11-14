@@ -1050,7 +1050,7 @@ UnitAI.prototype.UnitFsmSpec = {
 
 			"Timer": function(msg) {
 				// check if there are no enemies to attack
-				this.FindWalkAndFightTargets();
+				if (randBool(0.5)) this.FindWalkAndFightTargets();
 			},
 
 			"leave": function(msg) {
@@ -1543,7 +1543,7 @@ UnitAI.prototype.UnitFsmSpec = {
 				if (this.GetStance().targetVisibleEnemies)
 				{
 					// Start attacking one of the newly-seen enemy (if any)
-					this.AttackEntitiesByPreference(msg.data.added);
+					if (randBool(0.3))this.AttackEntitiesByPreference(msg.data.added);
 				}
 			},
 
@@ -1593,7 +1593,7 @@ UnitAI.prototype.UnitFsmSpec = {
 			},
 
 			"Timer": function(msg) {
-				this.FindWalkAndFightTargets();
+				if (randBool(0.5))this.FindWalkAndFightTargets();
 			},
 
 			"leave": function(msg) {
@@ -1634,7 +1634,7 @@ UnitAI.prototype.UnitFsmSpec = {
 			},
 
 			"Timer": function(msg) {
-				this.FindWalkAndFightTargets();
+				if (randBool(0.5))this.FindWalkAndFightTargets();
 			},
 
 			"MoveCompleted": function() {
@@ -1714,7 +1714,7 @@ UnitAI.prototype.UnitFsmSpec = {
 				"LosRangeUpdate": function(msg) {
 					// Start attacking one of the newly-seen enemy (if any)
 					if (this.GetStance().targetVisibleEnemies)
-						this.AttackEntitiesByPreference(msg.data.added);
+						if (randBool(0.3))this.AttackEntitiesByPreference(msg.data.added);
 				},
 
 				"Timer": function(msg) {
