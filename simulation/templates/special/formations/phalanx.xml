@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_formation">
+  <Formation>
+    <Icon>formations/phalanx.png</Icon>
+    <RequiredMemberCount>10</RequiredMemberCount>
+    <DisabledTooltip>10 hoplite infantry required</DisabledTooltip>
+    <SortingClasses>Advanced Champion Elite Hero Basic</SortingClasses>
+    <FormationName>Phalanx</FormationName>
+    <UnitSeparationWidthMultiplier>0.7</UnitSeparationWidthMultiplier>
+    <UnitSeparationDepthMultiplier>0.6</UnitSeparationDepthMultiplier>
+    <WidthDepthRatio>5</WidthDepthRatio>
+    <MinColumns>5</MinColumns>
+    <MaxColumns>20</MaxColumns>
+    <MaxRows>4</MaxRows>
+    <SpeedMultiplier>0.9</SpeedMultiplier>
+  </Formation>
+  <FormationAttack>
+    <CanAttackAsFormation>false</CanAttackAsFormation>
+  </FormationAttack>
+</Entity>
