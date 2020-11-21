@@ -4,6 +4,11 @@
     <Hack op="add">2</Hack>
     <Pierce op="add">1</Pierce>
   </Armour>
+  <Attack>
+	<Ranged>
+      <MaxRange op="add">-5.0</MaxRange>
+    </Ranged>
+  </Attack>
   <Cost>
     <Resources>
       <metal op="add">10</metal>

@@ -4,19 +4,19 @@
     <Ranged>
       <Hack>0.0</Hack>
       <Pierce>55.0</Pierce>
-      <Crush>10.0</Crush>
+      <Crush>30.0</Crush>
       <MaxRange>40.0</MaxRange>
       <MinRange>15.0</MinRange>
       <ProjectileSpeed>35.0</ProjectileSpeed>
       <Gravity>35.0</Gravity>
-      <PrepareTime>1500</PrepareTime>
+      <PrepareTime>500</PrepareTime>
       <RepeatTime>3000</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>4</AmmoCap>
-      <AmmoResetTime>10000</AmmoResetTime>
       <Spread>4.0</Spread>
       <Delay>0</Delay>
     </Ranged>
+    <AmmoCap>4</AmmoCap>
+    <AmmoResetTime>10000</AmmoResetTime>
   </Attack>
   <Cost>
     <Population>3</Population>

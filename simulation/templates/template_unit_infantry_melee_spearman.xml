@@ -36,5 +36,9 @@
     They were originally employed by individual warriors in a fighting style similar to the quarterstaff.  As time passed the spears got longer and were used in formations.
     Spearmen tended to be as heavily armored as possible, as carrying a long pole-arm already limits mobility.  Many used large shields such as the Greek hoplon.</History>
     <Tooltip>Highly effective for group-fighting vs cavalry and infantry.  Excellent defense vs slings and arrows.  Weak vs skirmishers and swordsmen.</Tooltip>
+    <Formations datatype="tokens">
+      special/formations/phalanx
+      special/formations/syntagma
+    </Formations>
   </Identity>
 </Entity>

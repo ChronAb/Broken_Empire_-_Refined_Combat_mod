@@ -26,15 +26,15 @@
       <MinRange>15.0</MinRange>
       <ProjectileSpeed>35</ProjectileSpeed>
       <Gravity>35.0</Gravity>
-      <PrepareTime>1500</PrepareTime>
+      <PrepareTime>500</PrepareTime>
       <RepeatTime>3000</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>4</AmmoCap>
-      <AmmoResetTime>20000</AmmoResetTime>
       <Spread>5.0</Spread>
       <Delay>0</Delay>
       <PreferredClasses datatype="tokens">Melee Human</PreferredClasses>
     </Ranged>
+    <AmmoCap>4</AmmoCap>
+    <AmmoResetTime>20000</AmmoResetTime>
   </Attack>
   <Identity>
     <VisibleClasses datatype="tokens">Javelin</VisibleClasses>

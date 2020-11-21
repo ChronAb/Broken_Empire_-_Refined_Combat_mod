@@ -2,19 +2,17 @@
 <Entity parent="template_structure_defense">
   <Attack>
     <Ranged>
-      <Hack>0.0</Hack>
-      <Pierce>8.0</Pierce>
-      <Crush>0.0</Crush>
-      <MaxRange>72.0</MaxRange>
-      <MinRange>12.0</MinRange>
-      <ProjectileSpeed>75.0</ProjectileSpeed>
-      <Gravity>9.81</Gravity>
-      <PrepareTime>1200</PrepareTime>
-      <RepeatTime>2000</RepeatTime>
+      <Hack>0</Hack>
+      <Pierce>40.0</Pierce>
+      <Crush>0</Crush>
+      <MaxRange>70.0</MaxRange>
+      <MinRange>20.0</MinRange>
+      <ProjectileSpeed>50.0</ProjectileSpeed>
+      <Gravity>20.0</Gravity>
+      <PrepareTime>800</PrepareTime>
+      <RepeatTime>8000</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>-1</AmmoCap>
-      <AmmoResetTime>30000</AmmoResetTime>
-      <Spread>1.5</Spread>
+      <Spread>4.0</Spread>
       <Delay>0</Delay>
       <PreferredClasses datatype="tokens">Human</PreferredClasses>
       <RangeOverlay>

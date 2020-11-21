@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_mechanical_siege_ballista">
+  <Armour>
+    <Hack>4</Hack>
+    <Pierce>10</Pierce>
+    <Crush>0</Crush>
+  </Armour>
+  <Attack>
+    <Ranged>
+      <Crush op="mul">1.0</Crush>
+      <RepeatTime>6000</RepeatTime>
+      <Splash>
+        <Pierce>40.0</Pierce>
+        <Crush>0</Crush>
+      </Splash>
+    </Ranged>
+  </Attack>
+  <Capturable disable=""/>
+  <Cost>
+    <BuildTime>25</BuildTime>
+    <Resources>
+      <wood>150</wood>
+      <metal>200</metal>
+    </Resources>
+    <Population>2</Population>
+  </Cost>
+  <Footprint replace="">
+    <Square width="5.0" depth="5.0"/>
+    <Height>3.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>rome</Civ>
+    <SpecificName>Scorpio</SpecificName>
+    <Icon>units/rome_mechanical_siege_scorpio_packed.png</Icon>
+    <RequiredTechnology>phase_town</RequiredTechnology>
+  </Identity>
+  <Pack>
+    <Entity>units/rome_mechanical_siege_scorpio_unpacked</Entity>
+    <State>packed</State>
+    <Time>5000</Time>
+  </Pack>
+  <VisualActor>
+    <Actor>units/romans/siege_scorpio_packed.xml</Actor>
+  </VisualActor>
+</Entity>

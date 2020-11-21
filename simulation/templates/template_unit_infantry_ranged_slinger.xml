@@ -12,13 +12,12 @@
       <PrepareTime>1000</PrepareTime>
       <RepeatTime>5000</RepeatTime>
       <RestTime>3000</RestTime>
-      <AmmoCap>15</AmmoCap>
-      <AmmoResetTime>6000</AmmoResetTime>
       <Spread>6.0</Spread>
       <Delay>0</Delay>
       <PreferredClasses datatype="tokens">Ranged Human</PreferredClasses>
-      <RestrictedClasses datatype="tokens">Skittish</RestrictedClasses>
     </Ranged>
+    <AmmoCap>15</AmmoCap>
+    <AmmoResetTime>6000</AmmoResetTime>
   </Attack>
   <Cost>
     <Resources>

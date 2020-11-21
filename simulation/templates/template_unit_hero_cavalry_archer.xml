@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_hero_cavalry">
+  <Attack>
+    <Ranged>
+      <Hack>0</Hack>
+      <Pierce>40.0</Pierce>
+      <Crush>30</Crush>
+      <MaxRange>60.0</MaxRange>
+      <MinRange>12.0</MinRange>
+      <ProjectileSpeed>50.0</ProjectileSpeed>
+      <Gravity>20.0</Gravity>
+      <PrepareTime>800</PrepareTime>
+      <RepeatTime>8000</RepeatTime>
+      <RestTime>6000</RestTime>
+      <Spread>4.0</Spread>
+      <Delay>0</Delay>
+      <Bonuses>
+        <BonusHunt>
+          <Classes>Animal</Classes>
+          <Multiplier>3.0</Multiplier>
+        </BonusHunt>
+      </Bonuses>
+      <PreferredClasses datatype="tokens">Ranged Human</PreferredClasses>
+    </Ranged>
+  </Attack>
+  <Identity>
+    <VisibleClasses datatype="tokens">Ranged Archer</VisibleClasses>
+    <GenericName>Hero Cavalry Archer</GenericName>
+    <Formations datatype="tokens">
+      special/formations/skirmish
+    </Formations>
+  </Identity>
+</Entity>

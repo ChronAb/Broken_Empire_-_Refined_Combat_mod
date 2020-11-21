@@ -12,9 +12,7 @@
       <PrepareTime>800</PrepareTime>
       <RepeatTime>8000</RepeatTime>
       <RestTime>6000</RestTime>
-      <AmmoCap>10</AmmoCap>
-      <AmmoResetTime>40000</AmmoResetTime>
-      <Spread>4.0</Spread>
+      <Spread>3.0</Spread>
       <Delay>0</Delay>
       <Bonuses>
         <BonusHunt>
@@ -22,8 +20,10 @@
           <Multiplier>3.0</Multiplier>
         </BonusHunt>
       </Bonuses>
-      <PreferredClasses datatype="tokens">SkirmFocus Worker Human</PreferredClasses>
+      <PreferredClasses datatype="tokens"> Cavalry SkirmFocus Worker Human</PreferredClasses>
     </Ranged>
+    <AmmoCap>10</AmmoCap>
+    <AmmoResetTime>40000</AmmoResetTime>
   </Attack>
   <Identity>
 	<Classes datatype="tokens">Arrows</Classes>

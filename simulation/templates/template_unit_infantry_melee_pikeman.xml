@@ -38,6 +38,7 @@
     Pikes remained in frequent use all over the world until the advent of mass produced gunpowder weapons.</History>
     <Tooltip>Optimized for group fighting at the expense of individual defense.  Devastating vs cavalry. Vulnerable if isolated and picked apart by archers, skirmishers, or swordsmen.</Tooltip>
     <Formations datatype="tokens">
+      special/formations/phalanx
       special/formations/syntagma
     </Formations>
   </Identity>

@@ -16,11 +16,10 @@
       <PrepareTime>750</PrepareTime>
       <RepeatTime>1250</RepeatTime>
       <RestTime>0</RestTime>
-      <AmmoCap>-1</AmmoCap>
-      <AmmoResetTime>30000</AmmoResetTime>
       <Spread>3.0</Spread>
       <Delay>0</Delay>
     </Ranged>
+    <AmmoCap>-1</AmmoCap>
   </Attack>
   <Identity>
     <GenericName>Ranged Cavalry</GenericName>
@@ -35,6 +34,6 @@
     </SoundGroups>
   </Sound>
   <Vision>
-    <Range>80</Range>
+    <Range>100</Range>
   </Vision>
 </Entity>

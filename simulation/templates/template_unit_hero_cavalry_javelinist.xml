@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_hero_cavalry">
+  <Attack>
+    <Ranged>
+      <Hack>0.0</Hack>
+      <Pierce>55.0</Pierce>
+      <Crush>30.0</Crush>
+      <MaxRange>40.0</MaxRange>
+      <MinRange>15.0</MinRange>
+      <ProjectileSpeed>35.0</ProjectileSpeed>
+      <Gravity>35.0</Gravity>
+      <PrepareTime>1500</PrepareTime>
+      <RepeatTime>3000</RepeatTime>
+      <RestTime>0</RestTime>
+      <Spread>4.0</Spread>
+      <Delay>0</Delay>
+    </Ranged>
+  </Attack>
+  <Footprint>
+    <Circle radius="3.0"/>
+    <Height>3.0</Height>
+  </Footprint>
+  <Health>
+    <Max>1500</Max>
+  </Health>
+  <Identity>
+    <Formations datatype="tokens">
+      special/formations/skirmish
+    </Formations>
+    <GenericName>Hero Cavalry Skirmisher</GenericName>
+    <VisibleClasses datatype="tokens">Javelin Ranged</VisibleClasses>
+  </Identity>
+  <UnitMotion>
+    <WalkSpeed op="mul">1.05</WalkSpeed>
+    <Run>
+      <Speed op="mul">1.05</Speed>
+    </Run>
+  </UnitMotion>
+</Entity>

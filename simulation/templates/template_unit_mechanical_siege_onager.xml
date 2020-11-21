@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_mechanical_siege">
+  <Attack>
+    <Ranged>
+      <Hack>0.0</Hack>
+      <Pierce>0.0</Pierce>
+      <Crush>200.0</Crush>
+      <MaxRange>210.0</MaxRange>
+      <MinRange>100.0</MinRange>
+      <ProjectileSpeed>75.0</ProjectileSpeed>
+      <Gravity>20.0</Gravity>
+      <PrepareTime>1000</PrepareTime>
+      <RepeatTime>15000</RepeatTime>
+      <RestTime>0</RestTime>
+      <Spread>5.0</Spread>
+      <Delay>0</Delay>
+      <Bonuses>
+        <Bonus1>
+          <Classes>Structure</Classes>
+          <Multiplier>4.0</Multiplier>
+        </Bonus1>
+      </Bonuses>
+      <Projectile>
+        <ImpactActorName>props/units/weapons/rock_explosion.xml</ImpactActorName>
+        <ImpactAnimationLifetime>0.1</ImpactAnimationLifetime>
+      </Projectile>
+      <Splash>
+        <Shape>Circular</Shape>
+        <Range>16</Range>
+        <FriendlyFire>true</FriendlyFire>
+        <Hack>0.0</Hack>
+        <Pierce>40.0</Pierce>
+        <Crush>80.0</Crush>
+      </Splash>
+      <PreferredClasses datatype="tokens">Structure</PreferredClasses>
+    </Ranged>
+  </Attack>
+  <Capturable>
+    <RegenRate>20</RegenRate>
+  </Capturable>
+  <Cost>
+    <BuildTime>60</BuildTime>
+    <Resources>
+      <food>200</food>
+      <wood>600</wood>
+      <metal>800</metal>
+    </Resources>
+    <Population>10</Population>
+  </Cost>
+  <Footprint replace="">
+    <Square width="6.0" depth="15.0"/>
+    <Height>4.5</Height>
+  </Footprint>
+  <Health>
+    <Max>250</Max>
+  </Health>
+  <Identity>
+    <GenericName>Siege Catapult</GenericName>
+    <VisibleClasses datatype="tokens">Catapult Ranged</VisibleClasses>
+  </Identity>
+  <Loot>
+    <xp>300</xp>
+    <food>0</food>
+    <wood>20</wood>
+    <stone>10</stone>
+    <metal>0</metal>
+  </Loot>
+  <Pack>
+    <Time>10000</Time>
+  </Pack>
+  <Selectable>
+    <Overlay>
+      <Texture>
+        <MainTexture>square/256x256.png</MainTexture>
+        <MainTextureMask>square/256x256_mask.png</MainTextureMask>
+      </Texture>
+    </Overlay>
+  </Selectable>
+  <Sound>
+    <SoundGroups>
+      <attack_impact_ranged>attack/impact/siegeprojectilehit.xml</attack_impact_ranged>
+      <attack_ranged>attack/siege/ballist_attack.xml</attack_ranged>
+    </SoundGroups>
+  </Sound>
+  <TrainingRestrictions>
+    <Category>Catapult</Category>
+  </TrainingRestrictions>
+  <UnitAI>
+    <DefaultStance>standground</DefaultStance>
+  </UnitAI>
+  <UnitMotion>
+    <WalkSpeed op="mul">0.8</WalkSpeed>
+    <Run>
+      <Speed op="mul">0.8</Speed>
+    </Run>
+  </UnitMotion>
+  <Vision>
+    <Range>80</Range>
+  </Vision>
+</Entity>

@@ -73,8 +73,6 @@ Attack.prototype.Schema =
 			"<PrepareTime>1500</PrepareTime>" +
 			"<RepeatTime>3000</RepeatTime>" +
             "<RestTime>0</RestTime>" +
-            "<AmmoCap>-1</AmmoCap>" +
-            "<AmmoResetTime>20000</AmmoResetTime>" +
 			"<ProjectileSpeed>50.0</ProjectileSpeed>" +
 			"<Spread>2.5</Spread>" +
 			"<Delay>1000</Delay>" +
@@ -99,6 +97,8 @@ Attack.prototype.Schema =
 				"<Crush>0.0</Crush>" +
 			"</Splash>" +
 		"</Ranged>" +
+        "<AmmoCap>-1</AmmoCap>" +
+        "<AmmoResetTime>20000</AmmoResetTime>" +
 		"<Slaughter>" +
 			"<Hack>1000.0</Hack>" +
 			"<Pierce>0.0</Pierce>" +
@@ -150,12 +150,6 @@ Attack.prototype.Schema =
 				"<element name='RestTime' a:help='Extra time between attacks (in milliseconds). The unit will play the idle animation during this time'>" +
 					"<data type='nonNegativeInteger'/>" +
 				"</element>" +
-				"<element name='AmmoCap' a:help='Maximum number of consecutive ranged attacks the unit can perform.'>" + 
-					"<data type='integer'/>" +
-				"</element>" +
-				"<element name='AmmoResetTime' a:help='Minimum length of time since the unit last attacked for the ammo count to reset to the cap.'>" + 
-					"<data type='nonNegativeInteger'/>" +
-				"</element>" +
 				"<element name='ProjectileSpeed' a:help='Speed of projectiles (in metres per second)'>" +
 					"<ref name='positiveDecimal'/>" +
 				"</element>" +
@@ -201,6 +195,12 @@ Attack.prototype.Schema =
 				"</optional>" +
 			"</interleave>" +
 		"</element>" +
+	"</optional>" +
+	"<optional>" +
+        "<element name='AmmoCap' a:help='Maximum number of consecutive ranged attacks the unit can perform.'><data type='integer'/></element>" +
+	"</optional>" +
+	"<optional>" +
+        "<element name='AmmoResetTime' a:help='Minimum length of time since the unit last attacked for the ammo count to reset to the cap.'><data type='nonNegativeInteger'/></element>" +
 	"</optional>" +
 	"<optional>" +
 		"<element name='Capture'>" +
@@ -410,12 +410,12 @@ Attack.prototype.GetBestAttackAgainst = function(target, allowCapture, rangedAmm
         /* Default multi-attack behavior
            Ranged is preferred, Use melee attack only if:
               distance to target < min range of ranged attack 
-           || distance to target < 40 && you are out of ammo
+           || distance to target < 60 && you are out of ammo
            || distance to target < 40 && < 30% of max range of ranged attack 
         */
         let shootRange = Math.max( 
-            this.GetRange("Ranged").min,
-            Math.min( 35, 0.3 * this.GetRange("Ranged").max + 35 * ((rangedAmmo == 0)? 1 : 0) )
+            Math.max( this.GetRange("Ranged").min , 60 * ((rangedAmmo == 0)? 1 : 0) ),
+            Math.min( 40 , 0.3 * this.GetRange("Ranged").max )
             );
         let chargeRange = shootRange;
         
@@ -429,7 +429,7 @@ Attack.prototype.GetBestAttackAgainst = function(target, allowCapture, rangedAmm
         }
         
         // Pick which attack to use
-        if ( cmpUnitMotion.IsInTargetRange(target, shootRange, 200) )
+        if ( cmpUnitMotion.IsInTargetRange(target, shootRange, 300) )
             return "Ranged";
         
         else if ( cmpUnitMotion.IsInTargetRange(target, 0, chargeRange ) )
@@ -472,11 +472,11 @@ Attack.prototype.GetTimers = function(type)
 
 Attack.prototype.GetAmmo = function(type)
 {
-	let cap = +(this.template[type].AmmoCap || -1);
-	cap = ApplyValueModificationsToEntity("Attack/" + type + "/AmmoCap", cap, this.entity);
+	let cap = +(this.template.AmmoCap || -1);
+	cap = ApplyValueModificationsToEntity("Attack/AmmoCap", cap, this.entity);
     
-	let recap = +(this.template[type].AmmoResetTime || 0);
-	recap = ApplyValueModificationsToEntity("Attack/" + type + "/AmmoResetTime", recap, this.entity);
+	let recap = +(this.template.AmmoResetTime || 0);
+	recap = ApplyValueModificationsToEntity("Attack/AmmoResetTime", recap, this.entity);
 
 	return { "cap": cap, "recap": recap };
 };

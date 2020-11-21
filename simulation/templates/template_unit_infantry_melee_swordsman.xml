@@ -43,6 +43,10 @@
     Long and durable swords pushed the limits of pre-industrial metallurgy while still lacking the reach of spears, so they were mainly employed as status symbols by nobles and elites.  However a sword does have some advantages over a spear in being lighter and better for close quarters fighting.
     Eventually advances in iron working made infantry swordsmen reliable mainstays of the Imperial Romans and their contemporaries.</History>
     <Tooltip>Swordsmen specialize in hacking down isolated pockets of enemy spearmen and capturing or destroying buildings.  Their large shields give excellent protection from arrows but are slightly cumbersome to movement and hand combat.  They are weak against skirmishers and cavalry.</Tooltip>
+    <Formations datatype="tokens">
+      special/formations/phalanx
+      special/formations/syntagma
+    </Formations>
   </Identity>
   <Loot>
     <wood op="add">10</wood>

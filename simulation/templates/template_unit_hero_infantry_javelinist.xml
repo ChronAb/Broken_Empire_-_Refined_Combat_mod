@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_hero_infantry">
+  <Attack>
+	<Ranged>
+      <Hack>0.0</Hack>
+      <Pierce>55.0</Pierce>
+      <Crush>0.0</Crush>
+      <MaxRange>40.0</MaxRange>
+      <MinRange>15.0</MinRange>
+      <ProjectileSpeed>35</ProjectileSpeed>
+      <Gravity>35.0</Gravity>
+      <PrepareTime>1500</PrepareTime>
+      <RepeatTime>3000</RepeatTime>
+      <RestTime>0</RestTime>
+      <Spread>5.0</Spread>
+      <Delay>0</Delay>
+      <PreferredClasses datatype="tokens">Melee Human</PreferredClasses>
+    </Ranged>
+    <AmmoCap>-1</AmmoCap>
+    <AmmoResetTime>20000</AmmoResetTime>
+  </Attack>
+  <Identity>
+    <VisibleClasses datatype="tokens">Ranged Javelin</VisibleClasses>
+    <GenericName>Hero Skirmisher</GenericName>
+    <Formations datatype="tokens">
+      special/formations/skirmish
+    </Formations>
+  </Identity>
+</Entity>
