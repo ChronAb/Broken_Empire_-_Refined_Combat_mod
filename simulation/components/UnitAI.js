@@ -1590,11 +1590,6 @@ UnitAI.prototype.UnitFsmSpec = {
 			"enter": function() {
 				this.SelectAnimation("move");
 			},
-            
-            "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                this.StopTimer(); 
-                return;
-            },
 
 			"MoveCompleted": function() {
 				this.FinishOrder();
@@ -1780,11 +1775,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				var speed = this.GetRunSpeed();
 				this.SetMoveSpeed(speed);
 			},
-            
-            "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                this.StopTimer(); 
-                return;
-            },
 
 			"leave": function() {
 				// Reset normal speed
@@ -2154,7 +2144,6 @@ UnitAI.prototype.UnitFsmSpec = {
                         // *****
                         this.attackPhase = 0;
                         this.StopTimer(); 
-                        
                         // Start the next attack if the target is alive and in range
                         if ( this.CanAttack( target ) && this.CheckTargetAttackRange( target, type ) ){
                             this.FaceTowardsTarget(target);
@@ -2527,10 +2516,6 @@ UnitAI.prototype.UnitFsmSpec = {
 					this.SetDefaultAnimationVariant();
 				},
                 
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 			},
 
 			// Walking to a good place to gather resources near, used by GatherNearPosition
@@ -2967,11 +2952,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
-                
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"MoveCompleted": function() {
 					// Switch back to idle animation to guarantee we won't
@@ -3059,11 +3039,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
-                
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"MoveCompleted": function() {
 					this.SetNextState("REPAIRING");
@@ -3261,11 +3236,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
-                
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"MoveCompleted": function() {
 					this.SetNextState("GARRISONED");
@@ -3368,11 +3338,6 @@ UnitAI.prototype.UnitFsmSpec = {
 					this.FinishOrder();
 					return true;
 				},
-
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"leave": function() {
 				}
