@@ -34,6 +34,10 @@ Damage.prototype.InterpolatedLocation = function(ent, lateness)
  * @param {Vector3D} point - the point we are checking with.
  * @param {number}   lateness - the time passed since the expected time to fire the function.
  * @return {boolean} - true if the point is inside of the entity's footprint.
+ 
+ * TODO(?): convert to pseudo-ballistic hit detection.
+    Have the attack(er) define a grounded line segment in 3-space that represents its damage path.
+    Detect hit if xy.distance from target to line segment < footprint && line.y at point == target.y +- height   
  */
 Damage.prototype.TestCollision = function(ent, point, lateness)
 {
@@ -88,7 +92,7 @@ Damage.prototype.GetPlayersToDamage = function(attackerOwner, friendlyFire)
  * @param {string}   data.type - the type of damage.
  * @param {number}   data.attackerOwner - the player id of the owner of the attacker.
  * @param {boolean}  data.isSplash - a flag indicating if it's splash damage.
- * @param {Vector3D} data.position - the expected position of the target.
+ * @param {Vector3D} data.position - the position where the projectile impacts.
  * @param {number}   data.projectileId - the id of the projectile.
  * @param {Vector3D} data.direction - the unit vector defining the direction.
  * @param {Object}   data.bonus - the attack bonus template from the attacker.
@@ -146,6 +150,7 @@ Damage.prototype.MissileHit = function(data, lateness)
 		cmpProjectileManager.RemoveProjectile(data.projectileId);
 		return;
 	}
+    // TODO: add a chance that the target gets harmlessly pinged anyway so it notices it is under attack
 
 	let targetPosition = this.InterpolatedLocation(data.target, lateness);
 	if (!targetPosition)
@@ -156,8 +161,10 @@ Damage.prototype.MissileHit = function(data, lateness)
 	let ents = this.EntitiesNearPoint(Vector2D.from3D(data.position), targetPosition.horizDistanceTo(data.position) * 2, Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager).GetAllPlayers());
 	for (let ent of ents)
 	{
-		if (!this.TestCollision(ent, data.position, lateness))
-			continue;
+		if (!this.TestCollision(ent, data.position, lateness)){
+            // TODO: add a chance that the target gets harmlessly pinged anyway so it notices it is under attack
+            continue;
+        }
 
 		this.CauseDamage({
 			"strengths": data.strengths,
@@ -197,9 +204,15 @@ Damage.prototype.CauseSplashDamage = function(data)
 	for (let ent of nearEnts)
 	{
 		let entityPosition = Engine.QueryInterface(ent, IID_Position).GetPosition2D();
-		if (data.shape == 'Circular') // circular effect with quadratic falloff in every direction
+        
+        // Circular Splash Damage:
+		if (data.shape == 'Circular') 
+            // circular effect with quadratic falloff in every direction
 			damageMultiplier = 1 - data.origin.distanceToSquared(entityPosition) / (data.radius * data.radius);
-		else if (data.shape == 'Linear') // linear effect with quadratic falloff in two directions (only used for certain missiles)
+            
+        // Linear Splash Damage: 
+        // (linear effect extending in both directions from the point of impact with no falloff)
+		else if (data.shape == 'Linear') 
 		{
 			// Get position of entity relative to splash origin.
 			let relativePos = entityPosition.sub(data.origin);
@@ -210,13 +223,14 @@ Damage.prototype.CauseSplashDamage = function(data)
 			let perpPos = relativePos.cross(direction);
 
 			// The width of linear splash is one fifth of the normal splash radius.
-			let width = data.radius / 5;
+			let width = 0.2 * data.radius;
 
-			// Check that the unit is within the distance splash width of the line starting at the missile's
-			// landing point which extends in the direction of the missile for length splash radius.
-			if (parallelPos >= 0 && Math.abs(perpPos) < width) // If in radius, quadratic falloff in both directions
-				damageMultiplier = (1 - parallelPos * parallelPos / (data.radius * data.radius)) *
-					(1 - perpPos * perpPos / (width * width));
+			// Check that the unit is within the splash area of the line
+			// which extends 1 splash radius  from the point of impact in the direction the projectile came from, and 1/2 radius beyond it.
+			if (parallelPos <= 0.5*data.radius && Math.abs(perpPos) < width) // If in radius, quadratic falloff in both directions
+                damageMultiplier = 1;
+				//damageMultiplier = (1 - parallelPos * parallelPos / (data.radius * data.radius)) *
+				//	(1 - perpPos * perpPos / (width * width));
 			else
 				damageMultiplier = 0;
 		}
@@ -229,15 +243,16 @@ Damage.prototype.CauseSplashDamage = function(data)
 			damageMultiplier *= GetDamageBonus(ent, data.splashBonus);
 
 		// Call CauseDamage which reduces the hitpoints, posts network command, plays sounds....
-		this.CauseDamage({
-			"strengths": data.strengths,
-			"target": ent,
-			"attacker": data.attacker,
-            "direction": data.direction,
-			"multiplier": damageMultiplier,
-			"type": data.type + ".Splash",
-			"attackerOwner": data.attackerOwner
-		});
+        if ( damageMultiplier > 0 )
+            this.CauseDamage({
+                "strengths": data.strengths,
+                "target": ent,
+                "attacker": data.attacker,
+                "direction": data.direction,
+                "multiplier": damageMultiplier,
+                "type": data.type + ".Splash",
+                "attackerOwner": data.attackerOwner
+            });
 	}
 };
 
