@@ -1,0 +1,50 @@
+MISSION STATEMENT:
+
+
+FEATURES:
+
+
+ISSUES:
+
+
+TIPS AND TRICKS:
+
+(Gameplay)
+* Slingers, Archers, and siege engines all have much longer attack range than their vision range. You can make them bombard VERY far away enemies by manually right clicking targets.
+
+* Almost all ranged units have extremely low accuracy and slow attack rates compared to most other RTS games. Their effective DPS output against your units can be hugely reduced just by spreading out your units. Conversely, ranged units are much more effective than normal against dense formations.
+
+* Most melee infantry have very strong aura group-bonuses. However they can't normally pack together closely enough to get maximum benefit from these effects. Use formations to make them get closer together for peak efficiency.
+
+* Many Infantry (ie. those equipped with shields) take bonus damage when attacked from the sides or the rear. Flanking or surrounding an enemy will often be much more effective than a frontal attack.
+
+* Cavalry have a powerful "fear" aura that massively debuffs the attack strength of any non-spear wielding infantry (in addition to high Hack armor). Thus you may get more bang for your buck by spreading out your cavalry or mixing them in with infantry than trying to use them for a single concentrated attack.
+
+* Rams are very slow and can't attack anything except buildings. Any type of melee unit will easily neutralize them.
+
+* Ranged siege engines - and all other ranged units - always have friendly fire. Use Passive Stance to stop them from shooting into the backs of your own melee infantry during fights or you will risk massive damage from fratricide.
+ 
+(Balance)
+* Javelinists are the strongest ranged infantry type against melee infantry (due in part to having extra Hack armor), but they are are weaker than the other types against melee cavalry. They can trade well in a short exchange against an equal value of Slingers or Archers but in a prolonged fight they lose badly because they run out of ammo. Their AI prioritizes targeting melee infantry.
+* Archers are the strongest ranged infantry type against cavalry. They also trade well against Javelinists in prolonged fights, but loose to Slingers by resource cost. They are the weakest of the ranged infantry types against melee infantry. Their AI prioritizes targeting cavalry.
+
+* Slingers are the strongest ranged infantry type by resource cost for fighting other ranged infantry. However by population cost they are only evenly matched against Archers and Javelinists. To regain an edge you must take advantage of the Slingers' superior range, or force the enemy into a packed formation where your Slingers' lower accuracy will be less of a disadvantage. Their AI prioritizes targeting other ranged infantry.
+
+* Pikemen are the strongest melee infantry type for group combat against other melee infantry (because their "massed pikes" aura gives them extra Hack armor and bonus Crush damage). They are weaker than the other types against ranged infantry (because they have much lower starting Pierce armor and lack the "massed shields" aura). Like Spearmen, they are very strong against melee cavalry and are immune to the "fear" aura. They cannot capture buildings but may be able to quickly knock them down with their "massed pikes" Crush bonus. They are also slower than any other organic unit, particularly when under the influence of many "massed pikes" auras, making them poor hunters and laborers.
+
+* Spearmen are the baseline melee infantry type. Superior weapon range gives them a slight edge over Swordsmen in dense group combat. They are very strong against melee cavalry and are immune to the "fear" aura. Almost all Spearmen have the "massed shields" aura which gives extra Hack and Pierce armor, allowing a dense charge of Spearmen to drive off an equal value of Slingers or Archers from open terrain with acceptable losses.
+
+* Swordsmen are the strongest melee infantry type for capturing or destroying buildings and siege weapons. They are the (probably) the weakest infantry type against cavalry (because their 100% Hack damage is reduced by both the "fear" aura and cavalry Hack armor). Swordsmen types with large shields do as well as Spearmen against ranged infantry, the exceptions being some variants (iber, kush & maur) that exchange their "massed shields" aura and some or all of their pierce armor for greater speed and hack damage.
+
+* Heavy Infantry are the same as other infantry types, but have extra Hack and Pierce armor that is not affected by flanking. This makes them a much stronger counter to ranged infantry in particular than than their ordinary counterparts. (The following are Heavy Infantry: all champion melee infantry, pers champion archer, athen adv & elite spearman, mace adv & elite pikeman, rome elite swordsman. More will be added as time permits.)  
+
+
+
+* Melee Cavalry are (probably) never cost effective in a head on engagement against any kind of infantry because they are too expensive, and even a small number of Spear infantry can neutralize them. Their main utility is their ability to very quickly flank or surround enemy formations, combined with the power of their aura + extremely high attack power to instantly neutralize Sword infantry, siege engines, or a back line of ranged infantry. They are also very good at quickly knocking down (sword or spear cavalry) or capturing (sword cavalry only) buildings and raiding enemy economy. Their best solo combat matchups are against infantry Swordsmen and infantry Javelinists.
+
+(Tactics)
+* Fighting Ranged Infantry with Ranged Infantry + Melee Cavalry: Use the ranged infantry to thin the enemy formation and then mop them up with a cavalry charge.
+
+* Fighting Ranged Infantry with Melee Infantry + Melee Cavalry: Use an infantry charge to disperse the enemy formation, then mop them up with the cavalry.
+
+* Fighting Swordsmen with Melee Infantry + Melee Cavalry: Use an infantry charge to disperse the enemy formation, then mop them up with the cavalry.
