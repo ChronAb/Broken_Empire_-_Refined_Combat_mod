@@ -1590,11 +1590,6 @@ UnitAI.prototype.UnitFsmSpec = {
 			"enter": function() {
 				this.SelectAnimation("move");
 			},
-            
-            "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                this.StopTimer(); 
-                return;
-            },
 
 			"MoveCompleted": function() {
 				this.FinishOrder();
@@ -1780,11 +1775,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				var speed = this.GetRunSpeed();
 				this.SetMoveSpeed(speed);
 			},
-            
-            "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                this.StopTimer(); 
-                return;
-            },
 
 			"leave": function() {
 				// Reset normal speed
@@ -1820,6 +1810,7 @@ UnitAI.prototype.UnitFsmSpec = {
                 let distOld = cmpObstructionManager.DistanceToPoint(this.order.data.target, pos.x, pos.y);
                 let distNew = cmpObstructionManager.DistanceToPoint(msg.data.attacker, pos.x, pos.y);
                 if ( distNew < distOld ) {
+                    this.StopTimer();
                     this.RespondToTargetedEntities([msg.data.attacker]);
                     return;
                 }
@@ -2090,6 +2081,7 @@ UnitAI.prototype.UnitFsmSpec = {
                                 if ( this.CanAttack(target, ["Melee"]) ){ // If a melee attack is available, then switch to melee
                                     this.StopTimer(); 
                                     this.RespondToTargetedEntities(target);
+                                    return;
                                 }else{ // otherwise run away
                                     this.StopTimer(); 
                                     this.PushOrderFront("Flee", { "target": target, "force": false });
@@ -2136,6 +2128,7 @@ UnitAI.prototype.UnitFsmSpec = {
                                 if ( this.CanAttack(target, ["Melee"]) ){ // If a melee attack is available, then switch to melee
                                     this.StopTimer(); 
                                     this.RespondToTargetedEntities(target);
+                                    return;
                                 }else{ // otherwise run away
                                     this.StopTimer(); 
                                     this.PushOrderFront("Flee", { "target": target, "force": false });
@@ -2154,7 +2147,6 @@ UnitAI.prototype.UnitFsmSpec = {
                         // *****
                         this.attackPhase = 0;
                         this.StopTimer(); 
-                        
                         // Start the next attack if the target is alive and in range
                         if ( this.CanAttack( target ) && this.CheckTargetAttackRange( target, type ) ){
                             this.FaceTowardsTarget(target);
@@ -2324,25 +2316,25 @@ UnitAI.prototype.UnitFsmSpec = {
                         return;
                     
                     // Ranged only units who are out of ammo or resting should flee when attacked
-                    let target = this.order.data.target;
-                    if ( this.order.data.attackType == "Ranged" && ( this.attackPhase == 3 || this.attackPhase == 2 ) ){
-                        if ( ! this.CanAttack(msg.data.attacker, ["Melee"]) ){
+                    if ( this.order.data.attackType == "Ranged" && ( this.attackPhase == 3 || this.attackPhase == 2 ) )
+                    {
+                        // Unless we have a melee weapon
+                        if ( this.GetBestAttackAgainst(msg.data.attacker, this.order.data.allowCapture, this.ammoCount) != "Melee" ){
                             this.StopTimer(); 
                             this.PushOrderFront("Flee", { "target": msg.data.attacker, "force": false });
                             return;
                         }
-                        
-                        // TODO: and ranged units in a melee fight who have melee should maybe switch to it
                     }
                     
                     // If the attacker is closer than the target we are currently fighting, then switch to fighting the attacker
-                    //this.RespondToTargetedEntities([msg.data.attacker]);
                     let cmpPosition = Engine.QueryInterface(this.entity, IID_Position)
                     let pos = cmpPosition.GetPosition2D();
                     let cmpObstructionManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ObstructionManager);
-                    let distOld = cmpObstructionManager.DistanceToPoint(target, pos.x, pos.y);
+                    let distOld = cmpObstructionManager.DistanceToPoint(this.order.data.target, pos.x, pos.y);
                     let distNew = cmpObstructionManager.DistanceToPoint(msg.data.attacker, pos.x, pos.y);
-                    if ( distNew < distOld ) {
+                    if ( distNew < distOld ) 
+                    {
+                        this.StopTimer(); 
                         this.RespondToTargetedEntities([msg.data.attacker]);
                         return;
                     }
@@ -2350,7 +2342,10 @@ UnitAI.prototype.UnitFsmSpec = {
 					// If we are capturing and are attacked by something that we would not capture, attack that entity instead
 					if (this.order.data.attackType == "Capture" && (this.GetStance().targetAttackersAlways || !this.order.data.force)
 						&& this.order.data.target != msg.data.attacker && this.GetBestAttackAgainst(msg.data.attacker, true, this.ammoCount) != "Capture")
-						this.RespondToTargetedEntities([msg.data.attacker]);
+                        {
+                            this.StopTimer(); 
+                            this.RespondToTargetedEntities([msg.data.attacker]);
+                        }
 				},
 			},
 
@@ -2527,10 +2522,6 @@ UnitAI.prototype.UnitFsmSpec = {
 					this.SetDefaultAnimationVariant();
 				},
                 
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 			},
 
 			// Walking to a good place to gather resources near, used by GatherNearPosition
@@ -2967,11 +2958,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
-                
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"MoveCompleted": function() {
 					// Switch back to idle animation to guarantee we won't
@@ -3059,11 +3045,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
-                
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"MoveCompleted": function() {
 					this.SetNextState("REPAIRING");
@@ -3261,11 +3242,6 @@ UnitAI.prototype.UnitFsmSpec = {
 				"enter": function() {
 					this.SelectAnimation("move");
 				},
-                
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"MoveCompleted": function() {
 					this.SetNextState("GARRISONED");
@@ -3368,11 +3344,6 @@ UnitAI.prototype.UnitFsmSpec = {
 					this.FinishOrder();
 					return true;
 				},
-
-                "Timer": function(msg) {//stupid fix to address leaky timers bug from Combat.Attacking
-                    this.StopTimer(); 
-                    return;
-                },
 
 				"leave": function() {
 				}
