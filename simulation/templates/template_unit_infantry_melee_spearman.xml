@@ -19,8 +19,8 @@
       <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall</RestrictedClasses>
     </Capture>
     <Melee>
-      <Hack>30.0</Hack>
-      <Pierce>15.0</Pierce>
+      <Hack>10.0</Hack>
+      <Pierce>5.0</Pierce>
 	  <MaxRange>9.0</MaxRange>
       <RepeatTime>2000</RepeatTime>
       <PreferredClasses datatype="tokens">Cavalry Melee Human</PreferredClasses>

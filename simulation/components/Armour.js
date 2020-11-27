@@ -66,12 +66,28 @@ Armour.prototype.TakeDamage = function(strengths, multiplier = 1, angle = 0 )
     
     //Modify according to Critical Hit System
 	var dammage = total;
+<<<<<<< Updated upstream
     if (total >= 60){
         dammage = total - 50 + randBool(0.5) * 100;
     }
     else if (total > 10){
         dammage = 10 + 2 * randBool(0.5) * (total-10);
     }
+=======
+    if (total >= 40)
+        // if total damage >= 40 
+        //      normal hits do total damage - 30
+        //      critical hits do total damage + 90
+        dammage = total - 30 + randBool(0.25) * 120;
+        
+    else if (total > 10)
+        // if total damage < 40 but > 10
+        //      normal hits do 10 damage
+        //      critical hits do 4*total damage - 30
+        dammage = 10 + randBool(0.25) * 4 * (total - 10);
+        
+    // if total damage <= 10 then all hits are normal hits, and do the normal amount of damage 
+>>>>>>> Stashed changes
 
 	// Reduce health
 	var cmpHealth = Engine.QueryInterface(this.entity, IID_Health);

@@ -7,7 +7,7 @@
       <RestTime>5000</RestTime>
       <Spread>2.4</Spread>
     </Ranged>
-    <AmmoCap>15</AmmoCap>
+    <AmmoCap>20</AmmoCap>
     <AmmoResetTime>20000</AmmoResetTime>
   </Attack>
   <Builder disable=""/>

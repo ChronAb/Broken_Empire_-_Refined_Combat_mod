@@ -18,7 +18,11 @@
   <Attack>
     <Ranged>
       <Hack>0</Hack>
+<<<<<<< Updated upstream
       <Pierce>40.0</Pierce>
+=======
+      <Pierce>30.0</Pierce>
+>>>>>>> Stashed changes
       <Crush>0</Crush>
       <MaxRange>60.0</MaxRange>
       <MinRange>0.0</MinRange>
@@ -82,7 +86,7 @@
   <Identity>
     <GenericName>Civic Center</GenericName>
     <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">Defensive CivCentre</Classes>
+    <Classes datatype="tokens">Defensive CivCentre Arrows</Classes>
     <VisibleClasses datatype="tokens">CivilCentre</VisibleClasses>
     <Icon>structures/civic_centre.png</Icon>
   </Identity>

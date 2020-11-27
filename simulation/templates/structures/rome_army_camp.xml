@@ -13,7 +13,11 @@
   <Attack>
     <Ranged>
       <Hack>0.0</Hack>
+<<<<<<< Updated upstream
       <Pierce>25.0</Pierce>
+=======
+      <Pierce>30.0</Pierce>
+>>>>>>> Stashed changes
       <Crush>0.0</Crush>
       <MaxRange>60.0</MaxRange>
       <MinRange>0.0</MinRange>
@@ -75,7 +79,7 @@
     <Civ>rome</Civ>
     <GenericName>Entrenched Army Camp</GenericName>
     <SpecificName>Castrum Vallum</SpecificName>
-    <Classes datatype="tokens">ArmyCamp</Classes>
+    <Classes datatype="tokens">ArmyCamp Arrows</Classes>
     <Icon>structures/roman_camp.png</Icon>
     <Tooltip>Build in neutral or enemy territory. Construct siege weapons and train citizen-soldiers. Heal garrisoned units slowly.</Tooltip>
   </Identity>

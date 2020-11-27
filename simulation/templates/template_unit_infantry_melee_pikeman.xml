@@ -14,8 +14,8 @@
   <Attack>
     <Capture disable=""/>
     <Melee>
-      <Hack>10.0</Hack>
-      <Pierce>30.0</Pierce>
+      <Hack>0</Hack>
+      <Pierce>10.0</Pierce>
 	  <MaxRange>12.0</MaxRange>
       <RepeatTime>3000</RepeatTime>
       <PreferredClasses datatype="tokens">Cavalry Melee Human</PreferredClasses>

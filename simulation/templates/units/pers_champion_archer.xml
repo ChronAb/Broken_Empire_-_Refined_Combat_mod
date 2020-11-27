@@ -15,8 +15,8 @@
       <MinRange>9.0</MinRange>
     </Ranged>
     <Melee>
-      <Hack>30.0</Hack>
-      <Pierce>15.0</Pierce>
+      <Hack>10.0</Hack>
+      <Pierce>5.0</Pierce>
       <Crush>0.0</Crush>
       <MaxRange>9.0</MaxRange>
       <PrepareTime>100</PrepareTime>

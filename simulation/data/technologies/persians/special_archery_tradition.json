@@ -1,0 +1,18 @@
+{
+	"genericName": "Majra Flight Archery",
+	"description": "The Persians had a highly refined archery tradition with a special emphasis on flight distance. Rather than shooting full size arrows, skilled archers employed a device called a Majra to fire small, bolt like projectiles that were much lighter than their conventional counterparts. To do this, the arrow was seated into the Majra, which was a narrow, half cylinder of wood with a channel cut down it, and a small loop attaching it to the archer's draw hand. the apparatus was nocked and drawn back with the arrow, and when the string was released it guided the projectile like the channel of a crossbow. As the Majra remained attached to the archer's draw hand, it could quickly be reloaded and fired again. The short bolts fired in this way had a much higher maximum velocity and were less affected by aerodynamic force than normal arrows, giving them enhanced range at the cost of reduced lethality against armor. They also had the benefit of being impossible for conventionally equipped enemies to pick up and shoot back.",
+	"cost": {"food": 500, "wood": 500, "stone": 0, "metal": 250},
+	"requirements": {"all": [{"tech": "phase_town"}, {"civ": "pers"}]},
+	"requirementsTooltip": "Unlocked in Town Phase.",
+	"icon": "archery_tradition.png",
+	"researchTime": 60,
+	"tooltip": "Arrow shooting units and structures have +50% -10 meters Range and increased accuracy",
+	"modifications": [
+		{"value": "Attack/Ranged/MaxRange", "multiply": 1.5},
+		{"value": "Attack/Ranged/MaxRange", "add": -10.0},
+        {"value": "Attack/Ranged/ProjectileSpeed", "add": 5.0},
+		{"value": "Attack/Ranged/Spread", "add": -0.5}
+	],
+	"affects": ["Arrows"],
+	"soundComplete": "interface/alarm/alarm_upgradearmory.xml"
+}

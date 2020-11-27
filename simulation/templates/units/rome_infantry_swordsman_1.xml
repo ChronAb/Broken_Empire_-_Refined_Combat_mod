@@ -6,12 +6,17 @@
   </Armour>
   <Attack>
     <Melee>
-      <RestrictedClasses datatype="tokens">Cavalry</RestrictedClasses>
+      <!--RestrictedClasses datatype="tokens">Cavalry</RestrictedClasses-->
     </Melee>
 	<Ranged>
       <Hack>0.0</Hack>
+<<<<<<< Updated upstream
       <Pierce>30.0</Pierce>
       <Crush>50.0</Crush>
+=======
+      <Pierce>20.0</Pierce>
+      <Crush>30.0</Crush>
+>>>>>>> Stashed changes
       <MaxRange>30.0</MaxRange>
       <MinRange>0.0</MinRange>
       <ProjectileSpeed>30</ProjectileSpeed>

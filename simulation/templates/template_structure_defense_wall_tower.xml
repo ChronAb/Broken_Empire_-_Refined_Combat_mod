@@ -3,7 +3,7 @@
   <Attack>
     <Ranged>
       <Hack>0</Hack>
-      <Pierce>40.0</Pierce>
+      <Pierce>30.0</Pierce>
       <Crush>0</Crush>
       <MaxRange>70.0</MaxRange>
       <MinRange>20.0</MinRange>
@@ -59,7 +59,7 @@
   <Identity>
     <GenericName>Wall Turret</GenericName>
     <Tooltip>Shoots arrows. Garrison to defend a city wall against attackers.</Tooltip>
-    <Classes datatype="tokens">-ConquestCritical StoneWall Tower</Classes>
+    <Classes datatype="tokens">-ConquestCritical StoneWall Tower Arrows</Classes>
     <Icon>structures/tower.png</Icon>
     <RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
