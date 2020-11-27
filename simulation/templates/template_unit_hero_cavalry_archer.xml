@@ -4,11 +4,7 @@
     <Ranged>
       <Hack>0</Hack>
       <Pierce>40.0</Pierce>
-<<<<<<< Updated upstream
-      <Crush>30</Crush>
-=======
       <Crush>0</Crush>
->>>>>>> Stashed changes
       <MaxRange>60.0</MaxRange>
       <MinRange>12.0</MinRange>
       <ProjectileSpeed>50.0</ProjectileSpeed>

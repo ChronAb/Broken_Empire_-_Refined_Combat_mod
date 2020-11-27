@@ -58,22 +58,22 @@ Armour.prototype.TakeDamage = function(strengths, multiplier = 1, angle = 0 )
 	// Don't bother rounding, since HP is no longer integral.
 	var total = 0;
 	for (let type in strengths){
+        
         let fraction = Math.pow(0.9, armourStrengths[type] || 0);
-        if (randBool(fraction)){
-            total += strengths[type] * multiplier * (0.75 + 0.25 * fraction);
-        } else { total += strengths[type] * multiplier * 0.25 * fraction;}
+        // the armor fraction both reduces damage strength; and increases the deflection chance 
+        
+        if (randBool(fraction))
+            // A Penetrating component: does 25% of base damage + 75% of the reduced damage
+            total += strengths[type] * multiplier * (0.25 + 0.75 * fraction);
+        else 
+            // A Deflecting component: does only 75% of the reduced damage
+            total += strengths[type] * multiplier * 0.75 * fraction;
+            
     }
     
-    //Modify according to Critical Hit System
+    //Modify according to Critical Hit System 
+    //  Every hit has a 25% chance of being critical 
 	var dammage = total;
-<<<<<<< Updated upstream
-    if (total >= 60){
-        dammage = total - 50 + randBool(0.5) * 100;
-    }
-    else if (total > 10){
-        dammage = 10 + 2 * randBool(0.5) * (total-10);
-    }
-=======
     if (total >= 40)
         // if total damage >= 40 
         //      normal hits do total damage - 30
@@ -87,7 +87,6 @@ Armour.prototype.TakeDamage = function(strengths, multiplier = 1, angle = 0 )
         dammage = 10 + randBool(0.25) * 4 * (total - 10);
         
     // if total damage <= 10 then all hits are normal hits, and do the normal amount of damage 
->>>>>>> Stashed changes
 
 	// Reduce health
 	var cmpHealth = Engine.QueryInterface(this.entity, IID_Health);

@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit">
   <Armour>
-<<<<<<< Updated upstream
-    <Hack>12</Hack>
-=======
     <Hack>14</Hack>
->>>>>>> Stashed changes
     <Pierce>0</Pierce>
     <Crush>0</Crush>
   </Armour>
@@ -40,11 +36,7 @@
     <Height>7.5</Height>
   </Footprint>
   <Health>
-<<<<<<< Updated upstream
-    <Max>150</Max>
-=======
     <Max>100</Max>
->>>>>>> Stashed changes
 	<RegenRate>0.03</RegenRate>
     <IdleRegenRate>0.15</IdleRegenRate>
   </Health>

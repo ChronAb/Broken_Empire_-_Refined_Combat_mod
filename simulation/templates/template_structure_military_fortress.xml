@@ -8,11 +8,7 @@
   <Attack>
     <Ranged>
       <Hack>0</Hack>
-<<<<<<< Updated upstream
-      <Pierce>40.0</Pierce>
-=======
       <Pierce>30.0</Pierce>
->>>>>>> Stashed changes
       <Crush>0</Crush>
       <MaxRange>70.0</MaxRange>
       <MinRange>20.0</MinRange>
